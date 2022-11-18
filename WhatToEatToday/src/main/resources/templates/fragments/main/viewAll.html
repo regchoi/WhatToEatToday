@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<main class="main" th:fragment="main">
+    <div class="inner">
+        <ul class="eating_house__list" >
+            <li class="eating_house" th:each="eatingHouse : ${eatingHouse}">
+                <a  class="eating_house__inner" th:href="@{'/customer/eating_house/All/' + ${eatingHouse.getId()}}">
+                    <figure class="eating_house__img">
+                        <img src="/img/category/음식.png" alt="" />
+                        <figcaption class="blind"></figcaption>
+                    </figure>
+
+                    <div class="eating_house__text">
+                        <h2 th:text = "${eatingHouse.getName()}">가게이름</h2>
+                        
+                        <p id="eatingHouse_address" th:text = "${eatingHouse.getAddress()}">가게주소</p>
+                        <p th:text = "${eatingHouse.getAddressDetail()}" style="display:none">가게 상세주소</p>
+                      
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</main>
+</html>

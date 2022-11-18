@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <main class="main" th:fragment="main">
+    <div class="inner">
+      <form action="/login" method="post" th:object="${loginForm}" class="login">
+      	<figure class="logo">
+      		<img src="/img/category/로고.png" alt="">
+      		<figcaption class="blind">
+      		</figcaption>
+      	</figure> 	   
+        <fieldset class="login__fieldset">
+          <input
+            class="login__input"
+            type="text"
+            th:field="*{id}"
+            placeholder="아이디"
+            autocomplete="off"
+            required
+          />
+        </fieldset>
+        <fieldset class="login__fieldset">
+          <input
+            class="login__input"
+            type="password"
+            th:field="*{password}"
+            placeholder="비밀번호"
+            autocomplete="off"
+            required
+          />
+        </fieldset>
+        <button class="login__button">로그인</button>
+        <button class="login__button" type="button" onclick=" location.href='join' ">회원가입</button>
+      </form>
+    </div>
+  </main>
+</html>

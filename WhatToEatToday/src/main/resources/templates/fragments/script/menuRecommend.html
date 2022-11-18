@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+
+
+const button = document.querySelector("#input_submit");
+const resetButton = document.querySelector("#reset");
+const forms = document.querySelectorAll("form");
+//const conditions = ${condition1[12].getId()};
+
+function check(event){
+  event.preventDefault()
+  let checkedItem = []
+
+  const checked = document.querySelectorAll("input[type=checkbox]:checked");
+  console.dir(checked)
+
+  for(let i = 0; i < checked.length; i++){
+      const temp = {text:checked[i].value};
+      checkedItem.push(temp);
+  }
+  localStorage.setItem("Selected_condition", JSON.stringify(checkedItem));
+
+  if(checked.length == 0){
+      localStorage.removeItem("Selected_condition")
+  }
+}
+
+function resetForms(){
+	const checked = document.querySelectorAll("input[type=checkbox]:checked");
+	console.dir(checked)
+	forms[0].reset()
+	forms[1].reset()
+	forms[2].reset()
+}
+
+button.addEventListener("click", check);
+resetButton.addEventListener("click", resetForms);
+</script>
+
+
+</body>
+</html>

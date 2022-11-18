@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="fragments/head :: head"> </head>
+  <body>
+    <header th:replace="fragments/header :: header"></header>
+    <main th:replace="( 'fragments/main/' + ${page} ) :: main"></main>
+    <footer th:replace="fragments/footer :: footer"></footer>
+
+    <div class="loading">
+      <figure>
+        <img src="/img/loading.gif" alt="로딩" />
+        <figcaption class="blind">로딩중 입니다.</figcaption>
+      </figure>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script th:inline="javascript">
+      window.onload = () => {
+          var message = [[${session.message}]];
+          if(message !== null) {
+              swal(message);
+              fetch("/message_reset", {
+                method: "GET",
+              });
+          }
+      }
+    </script>
+    <th:block th:replace="( 'fragments/script/' + ${page} ) :: script" />
+    <script defer>
+      const loading = document.querySelector(".loading");
+      loading.classList.add("blind");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:fragment="header">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrinkto-fit=no"
+    />
+    <!-- Custom styles for this template -->
+
+    <link href="../../static/css/reset.css" rel="stylesheet" />
+    <link href="../../static/css/reset.css" rel="stylesheet" />
+    <link href="../../static/css/global.css" rel="stylesheet" />
+    <link href="../../static/css/header.css" rel="stylesheet" />
+    <link href="../../static/css/main/editEatingHouse.css" rel="stylesheet" />
+    <link href="../../static/css/footer.css" rel="stylesheet" />
+    <script
+      src="https://kit.fontawesome.com/bfafa52380.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <title>What to eat Today</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="inner">
+        <h1 class="logo">
+          <a href="/"> 오늘 뭐 먹지? </a>
+        </h1>
+        <nav class="navbar">
+          <ul>
+            <li>
+              <a href="#">로그인</a>
+            </li>
+            <li>
+              <a href="#">회원가입</a>
+            </li>
+            <li>
+              <a href="#">정보</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="main">
+      <div class="inner">
+        <form
+          action="/join"
+          method="post"
+          th:object="${eationHouseForm}"
+          class="eating_house"
+        >
+          <fieldset class="img__field eating_house__fieldset">
+            <input type="image" src="../../static/img/sample.webp" />
+          </fieldset>
+          <fieldset class="text__field eating_house__fieldset">
+            <fieldset class="eating_house__fieldset">
+              <legend class="eating_house__legend">이름</legend>
+              <input id="name" class="eating_house__input" type="text" />
+            </fieldset>
+            <fieldset class="eating_house__fieldset">
+              <legend class="eating_house__legend">가게소개</legend>
+              <textarea
+                id="description"
+                class="eating_house__textarea"
+                rows="5"
+              >
+              </textarea>
+            </fieldset>
+            <fieldset class="eating_house__fieldset">
+              <legend class="eating_house__legend">주소</legend>
+              <input id="address" type="text" />
+            </fieldset>
+          </fieldset>
+          <button class="eating_house__button">수정하기</button>
+        </form>
+        <ul class="eating_house__item_list">
+          <li class="eating_house__item">
+            <a class="eating_house__item_inner" href="">
+              <figure class="eating_house__item__img_fieldset">
+                <img class="eating_house__item__img" src="../../static/img/sample.webp" alt="">
+                <figcaption class="blind">상품 이미지</figcaption>
+              </figure>
+              <div class="eating_house__item__text">
+                <h2>sfdafdsafdsaf</h2>
+                <p>fdafdsafdsa</p>
+              </div>
+            </a>
+          </li>
+          <li class="eating_house__item">
+            <a class="eating_house__item_inner" href="">
+              <i class="fa-solid fa-plus"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="inner">
+        <address>팀프로젝트</address>
+      </div>
+    </footer>
+  </body>
+</html>

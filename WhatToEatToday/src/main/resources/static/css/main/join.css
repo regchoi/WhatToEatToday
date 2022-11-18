@@ -1,0 +1,30 @@
+.main .inner {
+  padding-top: 160px;
+}
+
+.join_button {
+  width: 48%;
+  height: 400px;
+  float: left;
+  border-radius: 50%;
+  background-color: var(--color-spray);
+  color: white;
+}
+
+.join_button:hover {
+  color: aliceblue;
+  background-color: var(--color-dupain);
+}
+
+.join_button:nth-child(2) {
+  margin-left: 4%;
+}
+
+.join_button__icon {
+  font-size: 120px;
+}
+
+.join_button__text {
+  margin-top: 30px;
+  font-size: 30px;
+}

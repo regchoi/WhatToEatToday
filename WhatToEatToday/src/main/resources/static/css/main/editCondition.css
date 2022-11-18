@@ -1,0 +1,128 @@
+.main .inner {
+  padding: 40px 160px 80px;
+}
+
+.eating_house {
+  padding: 40px;
+  border-radius: 25px 25px 0 0;
+  background-color: var(--color-ivory);
+}
+
+.editCondition__title {
+  text-align: center;
+  font-size: var(--font-large);
+  color: var(--color-crown-diamond);
+}
+
+.eating_house .text__field {
+  width: 100%;
+  float: left;
+  padding: 20px;
+}
+
+.eating_house .text__field .eating_house__fieldset {
+  border: 3px solid var(--color-limestrong);
+  background-color: white;
+  padding-bottom: 10px;
+  margin: 30px 0 5px;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 90px;
+}
+
+.eating_house__legend {
+  font-size: var(--font-regular);
+  padding: 5px 10px;
+  background-color: white;
+  margin-left: 20px;
+  color: var(--color-little-greene);
+  border-radius: 8px;
+}
+
+.eating_house__input {
+  padding: 10px 15px;
+  width: 100%;
+  font-size: var(--font-medium);
+  color: var(--color-crown-diamond);
+}
+
+.eating_house__textarea {
+  padding: 10px 15px;
+  width: 100%;
+  font-size: var(--font-medium);
+  color: var(--color-crown-diamond);
+}
+
+.eating_house__button__container {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.eating_house__button {
+  margin-top: 30px;
+  font-size: var(--font-medium);
+  padding: 15px;
+  width: 45%;
+  background-color: var(--color-bristol);
+  border-radius: 8px;
+  color: white;
+  border: 0;
+}
+
+.eating_house__button:nth-child(1) {
+	margin-right: 5px;
+}
+
+a.eating_house__button {
+    display: block;
+    text-align: center;
+}
+
+.eating_house__menu_list {
+  background-color: var(--color-evonik-degussa);
+  padding: 25px;
+  border-radius: 0 0 25px 25px;
+}
+
+.eating_house__menu {
+  margin: 10px 20px 2px;
+  border-radius: 25px;
+  background-color: white;
+  color: var(--color-crown-diamond);
+}
+
+.eating_house__menu_inner {
+  display: block;
+  padding: 8px;
+  margin-top: 15px;
+}
+
+.eating_house__menu_inner::after {
+  content: "";
+  display: block;
+  width: 100%;
+  clear: both;
+}
+
+.eating_house__menu__text {
+  float: left;
+  width: 85%;
+  padding: 12px 20px;
+}
+
+.eating_house__menu__text h2 {
+  font-size: var(--font-medium);
+}
+
+.eating_house__menu__text p {
+  font-size: var(--font-regular);
+}
+.eating_house__menu:last-child {
+  text-align: center;
+  background-color: var(--color-evonik-degussa);
+}
+
+.menu__add{
+	color: white;
+	font-size: var(--font-medium);
+}

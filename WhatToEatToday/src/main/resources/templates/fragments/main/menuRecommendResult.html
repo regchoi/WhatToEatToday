@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>    
+    
+  </head>
+  <body>
+    
+    <main class="main">
+      <div class="inner">
+      	<br>
+        <br>
+        <br>
+        <h2>오늘 뭐 먹지?</h2>
+        <p>키워드로 메뉴 추천을 도와드릴게요</p>
+        <input
+          type="radio"
+          name="keyword_nav__trigger"
+          id="keyword_nav__trigger01"
+          checked
+        />
+    
+    
+        <ul class="keyword_box">
+          <li class="keyword_box__item">
+          	<span th:text=${session.member.getAddress()} style="display:none"></span>
+            <form id="section_search"/>
+          </li>
+       
+        </ul>
+        <button type="submit" id="input_submit" th:onclick="|location.href='@{/customer/recommendResult}'|">다른 메뉴 추천</button>
+        <button type="button" th:onclick="|location.href='@{/customer/recommend}'|">다시 고르기</button>
+      </div>
+    </main>
+    <footer class="footer"></footer>
+
+
+  </body>
+</html>

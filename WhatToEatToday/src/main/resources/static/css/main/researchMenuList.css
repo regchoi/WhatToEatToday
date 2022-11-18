@@ -1,0 +1,60 @@
+.main .inner {
+  padding: 40px;
+}
+
+.eating_house__menu_list {
+  background-color: var(--color-evonik-degussa);
+  padding: 25px 25px 5px;
+  border-radius: 15px;
+}
+
+.eating_house__menu {
+  background-color: white;
+  margin-bottom: 20px;
+  border-radius: 25px;
+  color: var(--color-crown-diamond);
+}
+
+.eating_house__menu_inner {
+  display: block;
+  padding: 20px;
+}
+
+.eating_house__menu_inner::after {
+  content: "";
+  display: block;
+  width: 100%;
+  clear: both;
+}
+
+.eating_house__menu__img_fieldset {
+  width: 15%;
+  float: left;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.eating_house__menu__img {
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
+.eating_house__menu__text {
+  float: left;
+  width: 85%;
+  padding: 15px 0 0 20px;
+}
+
+.eating_house__menu__text h2 {
+  font-size: var(--font-medium);
+}
+
+.eating_house__menu__text p {
+  font-size: var(--font-regular);
+}
+
+.eating_house__menu:last-child {
+  text-align: center;
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <main class="main" th:fragment="main">
+    <div class="inner">
+      <form
+        th:action="@{'/manager/eating_house/edit/' + ${eatingHouse.getId()}}"
+        method="post"
+        th:object="${eatingHouseForm}"
+        class="eating_house"
+      >
+        <fieldset class="img__field eating_house__fieldset">
+          <input type="image" src="/img/category/가게.png" alt=""/>
+        </fieldset>
+        <fieldset class="text__field eating_house__fieldset">
+          <fieldset class="eating_house__fieldset">
+            <legend class="eating_house__legend">매장이름</legend>
+            <input
+              id="name"
+              th:field="*{name}"
+              class="eating_house__input"
+              type="text"
+              maxlength="16"
+            />
+          </fieldset>
+          <fieldset class="eating_house__fieldset">
+            <legend class="eating_house__legend">매장소개</legend>
+            <textarea
+              id="description"
+              th:field="*{description}"
+              class="eating_house__textarea"
+              rows="5"
+            >
+            </textarea>
+          </fieldset>
+        </fieldset>
+        <fieldset class="eating_house__address_fieldset">
+          <legend class="eating_house__legend">주소</legend>
+          <input
+            class="blind"
+            id="address-info"
+            type="text"
+            th:field="*{address}"
+          />
+          <input
+            class="eating_house__input"
+            type="text"
+            id="address"
+            onkeyup="addressEmptyCheck()"
+            onclick="getAddress()"
+            placeholder="Address"
+            autocomplete="off"
+            required
+          />
+          <button
+            type="button"
+            class="eating_house__button"
+            onclick="getAddress()"
+          >
+            주소 검색
+          </button>
+          <input
+            class="eating_house__input"
+            type="text"
+            placeholder="상세주소"
+            autocomplete="off"
+            required
+            th:field="*{addressDetail}"
+          />
+        </fieldset>
+        <button class="eating_house__button">수정하기</button>
+        <a
+          class="eating_house__button"
+          th:href="@{'/manager/eating_house/delete/' + ${eatingHouse.getId()}}"
+          >삭제하기</a
+        >
+      </form>
+      <ul class="eating_house__menu_list">
+        <li
+          class="eating_house__menu"
+          th:each="menu : ${eatingHouse.getMenus()}"
+        >
+          <a
+            class="eating_house__menu_inner"
+            th:href="@{'/manager/eating_house/edit/' + ${eatingHouse.getId()} + '/menu/edit/' + ${menu.getId()}}"
+          >
+            <figure class="eating_house__menu__img_fieldset">
+              <img
+                class="eating_house__menu__img"
+                src="/img/category/음식.png"
+                alt=""
+              />
+              <figcaption class="blind">메뉴 이미지</figcaption>
+            </figure>
+            <div class="eating_house__menu__text">
+              <h2 th:text="${menu.getName()}"></h2>
+              <p th:text="${menu.getPrice()} + '원'"></p>
+            </div>
+          </a>
+        </li>
+        <li class="eating_house__menu">
+          <a
+            class="eating_house__menu_inner"
+            th:href="@{'/manager/eating_house/edit/' + ${eatingHouse.getId()} + '/menu/add' }"
+          >
+            <i class="menu__add">메뉴추가</i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </main>
+</html>

@@ -1,0 +1,16 @@
+.footer {
+  width: 100%;
+  bottom: 0;
+  padding: 15px 0;
+  color: var(--color-crown-diamond);
+  border-top: 1px double;
+  border-color: lightgray;
+  font-family: "GmarketSans";
+  line-height: 1.5;
+}
+
+.footer .inner {
+  margin: auto;
+  width: 380px;
+  padding-top: 10px;
+}

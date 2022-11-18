@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메뉴 추천받기</title>   
+  
+  </head>
+  <body>
+    
+    <main class="main">
+      <div class="inner">
+        <br>
+        <br>
+        <br>
+        <h2>오늘 뭐 먹지?</h2>
+        <p>키워드로 메뉴 추천을 도와드릴게요</p>
+        <input       	
+          type="radio"
+          name="keyword_nav__trigger"
+          id="keyword_nav__trigger01"
+          checked
+        />
+        <input
+          type="radio"
+          name="keyword_nav__trigger"
+          id="keyword_nav__trigger02"          
+        />
+        <input
+          type="radio"
+          name="keyword_nav__trigger"
+          id="keyword_nav__trigger03"
+        />
+        <nav class="keyword_nav">
+          <ul>
+            <li>
+            <div th:object="${concate1}">
+              <label class="keyword_nav__item" for="keyword_nav__trigger01" th:text="'오늘' + ${concate1.name} + '은?'" 
+                ></label>
+            </div>    
+            </li>
+            <li>
+             <div th:object="${concate2}">
+              <label class="keyword_nav__item" for="keyword_nav__trigger02" th:text="'오늘' + ${concate2.name} + '는?'"
+                ></label>
+              </div>  
+            </li>
+            <li>
+            <div th:object="${concate3}">
+              <label class="keyword_nav__item" for="keyword_nav__trigger03" th:text="'오늘' + ${concate3.name} + '은?'"
+                ></label>
+            </div>    
+            </li>
+          </ul>
+        </nav>
+        <ul class="keyword_box">
+          <li class="keyword_box__item">
+            <form id="section_search" th:action="@{/customer/recommendResult/}">
+              <div th:each="condition : ${condition1}">
+              	<input th:id="${condition}" name="longId" type="checkbox" th:value="${condition.id}"/>
+              	<label th:for="${condition}" th:text="${condition.name}"></label>          	
+              </div>              
+            </form>
+          </li>
+          <li class="keyword_box__item">
+            <form id="section_search" th:object="${longIdForm}" th:action="@{/customer/recommendResult/}">
+              <div th:each="condition : ${condition2}">
+              	<input th:id="${condition}" type="checkbox" th:value="${condition.id}"/>    
+              	<label th:for="${condition}" th:text="${condition.name}"></label>          	
+              </div> 
+            </form>
+          </li>
+          <li class="keyword_box__item">
+            <form id="section_search" th:object="${longIdForm}" th:action="@{/customer/recommendResult/}">
+            <div th:each="condition : ${condition3}">
+              	<input th:id="${condition}" type="checkbox" th:value="${condition.id}"/>    
+              	<label th:for="${condition}" th:text="${condition.name}"></label>          	
+              </div> 
+            </form>
+          </li>
+        </ul>
+        <button type="submit" id="input_submit" onclick="location.href='/customer/recommendResult'">결정하기</button>
+        <button id="reset">다시 고르기</button>
+      </div>
+    </main>
+    <footer class="footer"></footer>
+
+
+   
+  </body>
+ 
+</html>

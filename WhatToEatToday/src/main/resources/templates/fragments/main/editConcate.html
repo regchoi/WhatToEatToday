@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <main class="main" th:fragment="main">
+    <div class="inner">
+      <form
+        th:action="@{'/admin/admin_recommend/editConcate/' + ${number}}"
+        method="post"
+        th:object="${editConcateForm}"
+        class="eating_house"
+      >
+		<address class="editConcate__title">카테고리 수정</address>
+        <fieldset class="text__field">
+          <fieldset class="eating_house__fieldset">
+            <legend class="eating_house__legend">기존 카테고리명</legend>
+            <h3
+              th:text="${condition}"
+                id="name"
+              class="eating_house__input"
+            />
+          </fieldset>
+          <fieldset class="eating_house__fieldset">
+            <legend class="eating_house__legend">새로운 카테고리명</legend>
+            <input
+              id="after"
+              th:field="*{after}"
+              class="eating_house__input"
+              type="text"
+            />
+          </fieldset>
+        </fieldset>
+        <fieldset class="eating_house__button__container">
+        	<button class="eating_house__button">수정하기</button>
+        	<a class="eating_house__button" th:href="@{/admin/admin_recommend}">돌아가기</a>
+      	</fieldset>
+      </form>
+    </div>
+  </main>
+</html>

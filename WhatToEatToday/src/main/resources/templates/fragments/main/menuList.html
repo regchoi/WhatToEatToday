@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<main class="main" th:fragment="main">
+    <div class="inner">
+        <ul class="eating_house__menu_list">
+            <li
+                    class="eating_house__menu"
+                    th:each="menu : ${eatingHouse.getMenus()}"
+            >
+                <div
+                        class="eating_house__menu_inner"
+
+                >
+                    <figure class="eating_house__menu__img_fieldset">
+                        <img
+                                class="eating_house__menu__img"
+                                src="/img/category/음식.png"
+                                alt=""
+                        />
+                        <figcaption class="blind">메뉴 이미지</figcaption>
+                    </figure>
+                    <div class="eating_house__menu__text">
+                        <h2 th:text="${menu.getName()}"></h2><br/>
+                        <p th:text="${menu.getPrice()} + '원'"></p>
+                    </div>
+                </div>
+            </li>
+            <li class="eating_house__menu">
+
+            </li>
+        </ul>
+    </div>
+</main>
+</html>

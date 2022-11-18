@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=55884d13818be497c99f3d92ca31ab24&libraries=services"></script>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=6qbw8msdqw&submodules=panorama"></script>
+<script th:inline="javascript">
+
+
+//-------------------------------변수 선언------------------------
+//box1 > html 에 있는 id 가 section_search인 놈을 컨트롤 가능하게 해주는 변수 여기서는 form
+const box1 = document.querySelector("#section_search");
+//saves > 이전 페이지에서 local storage 에 저장한 값을 받아옴
+const saves = localStorage.getItem("Selected_condition");
+//memberAdd > 주소를 받아오기 위해 꼼수로 html 에 데이터 받아옴
+const memberAdd = document.querySelector(".keyword_box span")
+//오늘의 메뉴 밑에 뜨는 텍스트를 컨트롤 하기 위해 지정
+const P = document.querySelector("p")
+
+//장소 검색 객체를 생성합니다(카카오 api 사용)
+var ps = new kakao.maps.services.Places();
+
+//받아온 값들의 위치를 저장하기 위한 리스트
+let listIndex = [];
+
+//각각 선택된 랜덤음식과 위치를 저장하기 위해 선언
+//let randomFood = "";
+let foods = [[${menus}]];
+console.log(foods.id);
+let randomFood = ""
+let loc;
+
+
+let j;
+
+//-----------------------------------------메서드 정의--------------------------
+function loadList(){
+    //localStorage에 있는 JSON값 해석해서 load에 대입
+    const load = JSON.parse(saves);
+    //불러온 값이 있으면 각 load값에 대하여 findIndex 실행
+    if(saves){
+        load.forEach(findIndex);
+    }
+
+     const result = document.createElement("div")  //span : html에 span 태그 생성
+    if(listIndex.length > 0){
+    	//i : (0 ~ listIndex의 길이) 사이의 랜덤한 값을 가짐
+    	//i = listIndex[Math.floor(Math.random()*(listIndex.length))]
+    	//j : (0 ~ foods.id.length) 사이의 랜덤한 값을 가짐
+   	    j = Math.floor(Math.random()*foods.id.length)
+   	    //랜덤 음식은 전체 food 배열중에서 랜덤으로 선택된 i, j에 의해 결정됨
+   	    randomFood = foods.name[j]
+   	    P.innerText = "오늘의 메뉴 : " + randomFood
+   	    //맵을 사용하는 함수를 호출
+   	    ps.keywordSearch(randomFood + " 매장", placesSearchCB);
+    }else{
+    	//만약 전 페이지에서 선택된 값이 없다면 빈 페이지에 실행요구
+    	result.innerText = "키워드 선택해주세요"
+    	result.id = "selected"
+        box1.appendChild(result)
+    }
+
+}
+
+//------------------------------------------메서드 정의2-------------------------
+function findIndex(selectedList){
+    //listIndex에 load 원소의 위치를 condition에서 찾아 저장
+    //console.log(condition.indexOf(selectedList.text, 0))
+    listIndex.push(Number(selectedList.text))
+}
+
+//키워드 검색 완료 시 호출되는 콜백함수 입니다
+function placesSearchCB (data, status) {
+	const address = JSON.parse(memberAdd.outerText).addresses[0];
+   	//주소형식을 변수로 만들어줌
+     const HOME_PATH = "http://" + window.location.host || '.';
+
+    //위도 & 경도
+    console.log(JSON.parse(foods.address[j]).addresses[0])
+    const Lat = parseFloat(JSON.parse(foods.address[j]).addresses[0].y)
+    const Lng = parseFloat(JSON.parse(foods.address[j]).addresses[0].x)
+    console.log(Lat, Lng)
+    //Map 띄우기
+    const map = new naver.maps.Map(box1, {
+        center: new naver.maps.LatLng(Lat, Lng),
+        zoom: 12,
+        minZoom: 6,
+        zoomControl: true,
+        zoomControlOptions: {
+            position: naver.maps.Position.TOP_RIGHT
+        },
+        mapDataControl: false,
+        logoControlOptions: {
+            position: naver.maps.Position.LEFT_BOTTOM
+        },
+        disableKineticPan: false
+      });
+
+      //Marker 띄우기
+    const urlMarker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(Lat, Lng),
+          map: map,
+          title: 'urlMarker',
+          icon: {
+            url: HOME_PATH +"/img/map/pin_EatingHouse.png",
+            size: new naver.maps.Size(38, 56),
+            scaledSize: new naver.maps.Size(38, 56),
+            origin: new naver.maps.Point(0, 0),
+            anchor: new naver.maps.Point(12, 34)
+          },
+          animation: naver.maps.Animation.BOUNCE
+      });
+
+    var contentString = [
+          '<div class="iw_inner">', '<br />',
+          '   <p>',
+          '       <a>추천 식당: '+foods.store[j]+'</a>',
+          '   </p>',
+          '</div>'
+      ].join('');
+
+    P.innerText = "오늘의 메뉴 : " + randomFood + "\n추천 매장 : " + foods.store[j]
+
+    var infowindow = new naver.maps.InfoWindow({
+          content: contentString
+    });
+
+    //infowindow.open(map, urlMarker)
+    //네이버 맵 이벤트에 발생한 클릭이벤트에 따라 urlMarker에 infoWindow출력함
+    naver.maps.Event.addListener(urlMarker, 'click', function() {
+      	if (infowindow.getMap()) {
+              infowindow.close();
+          } else {
+              infowindow.open(map, urlMarker);
+          }
+      });
+
+      const Lat2 = Number(address.y)
+      const Lng2 = Number(address.x)
+    //Marker2 띄우기
+      const urlMarker2 = new naver.maps.Marker({
+          position: new naver.maps.LatLng(Lat2, Lng2),
+          map: map,
+          title: 'urlMarker',
+          icon: {
+            url: HOME_PATH +"/img/map/pin_User.png",
+            size: new naver.maps.Size(38, 56),
+            scaledSize: new naver.maps.Size(38, 56),
+            origin: new naver.maps.Point(0, 0),
+            anchor: new naver.maps.Point(12, 34)
+          },
+          animation: naver.maps.Animation.BOUNCE
+      });
+
+      var contentString2 = [
+      	'<div class="iw_inner"> <br />',
+          '   <p>우리집</p>',
+          '</div>'
+      ].join('');
+
+      var infowindow2 = new naver.maps.InfoWindow({
+          content: contentString2
+      });
+
+      //네이버 맵 이벤트에 발생한 클릭이벤트에 따라 urlMarker에 infoWindow출력함
+      naver.maps.Event.addListener(urlMarker2, 'click', function() {
+      	if (infowindow2.getMap()) {
+              infowindow2.close();
+          } else {
+              infowindow2.open(map, urlMarker2);
+          }
+      });
+}
+//------------------------실행--------------------------------------------
+
+loadList();
+
+</script>
+
+</body>
+</html>

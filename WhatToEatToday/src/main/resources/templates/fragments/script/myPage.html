@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <th:block th:fragment="script">
+    <script th:inline="javascript">
+      function setAddress() {
+          const span = document.querySelector("#mypage_address")
+          const address = JSON.parse([[${customer.getAddress()}]]);
+          span.innerText = address.addresses[0].roadAddress;
+      }
+      setAddress();
+    </script>
+  </th:block>
+</html>

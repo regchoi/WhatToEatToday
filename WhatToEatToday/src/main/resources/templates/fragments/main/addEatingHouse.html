@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<main class="main" th:fragment="main">
+    <div class="inner">
+        <form
+                action="/manager/eating_house/add"
+                method="post"
+                th:object="${eatingHouseForm}"
+                class="eating_house"
+        >
+        <address class="eating_house__title">매장 등록 하기</address>
+            <fieldset class="eating_house__fieldset">
+                <input
+                        class="eating_house__input"
+                        type="text"
+                        th:field="*{name}"
+                        placeholder="매장이름"
+                        autocomplete="off"
+                        maxlength="16"
+                        required
+                />
+            </fieldset>
+            <fieldset class="eating_house__fieldset">
+                <textarea
+                        class="eating_house__textarea"
+                        rows="5"
+                        th:field="*{description}"
+                        placeholder="매장소개"
+                ></textarea>
+            </fieldset>
+            <fieldset class="eating_house__fieldset">
+                <input
+                        class="blind"
+                        id="address-info"
+                        type="text"
+                        th:field="*{address}"
+                />
+                <input
+                        class="eating_house__input"
+                        type="text"
+                        id="address"
+                        onkeyup="addressEmptyCheck()"
+                        onclick="getAddress()"
+                        placeholder="주소"
+                        autocomplete="off"
+                        required
+                />
+                <button type="button" class="eating_house__button" onclick="getAddress()">
+                    주소 검색
+                </button>
+                <input
+                        class="eating_house__input"
+                        type="text"
+                        placeholder="상세주소"
+                        autocomplete="off"
+                        required
+                        th:field="*{addressDetail}"
+                />
+            </fieldset>
+            <button class="eating_house__button">등록</button>
+        </form>
+    </div>
+</main>
+</html>

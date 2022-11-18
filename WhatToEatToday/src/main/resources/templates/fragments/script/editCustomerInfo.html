@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <th:block th:fragment="script">
+    <script
+      src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wbeu0mozwg&submodules=geocoder"
+    ></script>
+    <script th:inline="javascript">
+      function setMemberInfo() {
+          const nameField = document.querySelector("input[name='name']");
+          const customerName = [[${customer.getName()}]]
+          nameField.value = customerName;
+
+          const passwordField = document.querySelector("input[name='password']");
+          const customerPassword = [[${customer.getPassword()}]]
+          passwordField.value = customerPassword;
+
+          const emailField = document.querySelector("input[name='email']");
+          const customerEmail = [[${customer.getEmail()}]]
+          emailField.value = customerEmail;
+
+          const telField = document.querySelector("input[name='tel']");
+          const customerTel = [[${customer.getTel()}]]
+          telField.value = customerTel;
+
+          const addressField = document.querySelector("input[name='address']");
+          const customerAddress = [[${customer.getAddress()}]]
+          addressField.value = customerAddress;
+
+          const address = JSON.parse(customerAddress);
+          document.querySelector("#address").value = address.addresses[0].roadAddress;
+
+          const addressDetailField = document.querySelector("input[name='addressDetail']");
+          const customerAddressDetail = [[${customer.getAddressDetail()}]]
+          addressDetailField.value = customerAddressDetail;
+      }
+      setMemberInfo();
+    </script>
+    <script>
+      function getAddress() {
+        new daum.Postcode({
+          oncomplete: function (data) {
+            var addr = data.address; // 최종 주소 변수
+            naver.maps.Service.geocode(
+              {
+                query: addr,
+              },
+              function (status, response) {
+                if (status !== naver.maps.Service.Status.OK) {
+                  return alert("Something wrong!");
+                }
+
+                var result = response.v2; // 검색 결과의 컨테이너
+                document.getElementById("address").value =
+                  result.addresses[0].roadAddress;
+                document.getElementById("address-info").value =
+                  JSON.stringify(result);
+              }
+            );
+          },
+        }).open();
+      }
+      function addressEmptyCheck() {
+        if (document.getElementById("address-info").value === "") {
+          document.getElementById("address").value = "";
+        } else {
+          document.getElementById("address").value = JSON.parse(
+            document.getElementById("address-info").value
+          ).addresses[0].roadAddress;
+        }
+      }
+    </script>
+  </th:block>
+</html>

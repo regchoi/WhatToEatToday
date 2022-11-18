@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <th:block th:fragment="script">
+    <script
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wbeu0mozwg&submodules=panorama"
+    ></script>
+    <script th:inline="javascript">
+      const jsMembers = [[${jsMembers}]];
+      const membersBody = document.querySelector(".members_body");
+      const tr = membersBody.querySelectorAll("tr");
+      for( let i=0; i<jsMembers["id"].length; i++) {
+          if(jsMembers !== null) {
+            if(JSON.parse(jsMembers["address"][i]) == null){continue;}
+            const address = JSON.parse(jsMembers["address"][i]).addresses[0];
+            const addressTd = tr[i].querySelector("td:nth-child(8)");
+
+            addressTd.innerText = "";
+
+            const mapActiveButtonLabel = document.createElement("label");
+
+            mapActiveButtonLabel.setAttribute("for", "map_active_button" + i);
+
+            const addressSpan = document.createElement("span");
+
+            addressSpan.innerText = address.roadAddress;
+            mapActiveButtonLabel.appendChild(addressSpan);
+            addressTd.appendChild(mapActiveButtonLabel);
+
+            const mapActiveButton = document.createElement("input");
+
+            mapActiveButton.type = "radio" ;
+            mapActiveButton.name = "map_active_button";
+            mapActiveButton.className = "map_active_button";
+
+            mapActiveButton.id = "map_active_button" + i;
+
+            addressTd.appendChild( mapActiveButton);
+
+            const mapCloseButtonLabel = document.createElement("label");
+
+            mapCloseButtonLabel.setAttribute("for", "map_close_button");
+
+            const mapOuter = document.createElement("figure");
+
+            mapOuter.className = "map_outer";
+
+            const mapInner = document.createElement("div");
+
+            mapInner.className = "map_inner";
+
+            mapOuter.appendChild(mapInner);
+
+            const mapFigureCaption = document.createElement("figcaption");
+
+            mapFigureCaption.innerText = `${address.roadAddress} ${jsMembers['addressDetail'][i]}`;
+
+            mapOuter.appendChild(mapFigureCaption);
+
+            mapOuter.addEventListener("click", (e) => e.preventDefault());
+
+            mapCloseButtonLabel.appendChild(mapOuter);
+
+            addressTd.appendChild(mapCloseButtonLabel);
+
+            const HOME_PATH = "http://" + window.location.host || '.';
+
+            const Lat = Number(address.y)
+            const Lng = Number(address.x)
+            const map = new naver.maps.Map(mapInner, {
+              center: new naver.maps.LatLng(Lat, Lng),
+              zoom: 13,
+              minZoom: 6,
+              zoomControl: true,
+              zoomControlOptions: {
+                  position: naver.maps.Position.TOP_RIGHT
+              },
+              mapDataControl: false,
+              logoControlOptions: {
+                  position: naver.maps.Position.LEFT_BOTTOM
+              },
+              disableKineticPan: false
+            });
+
+            const urlMarker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(Lat, Lng),
+                map: map,
+                title: 'urlMarker',
+                icon: {
+                  url: HOME_PATH +"/img/map/pin_User.png",
+                  size: new naver.maps.Size(44, 65),
+                  scaledSize: new naver.maps.Size(44, 65),
+                  origin: new naver.maps.Point(0, 0),
+                  anchor: new naver.maps.Point(12, 34)
+                },
+                animation: naver.maps.Animation.BOUNCE
+            });
+
+            naver.maps.Event.addListener(urlMarker, 'click', function() {
+                if (urlMarker.getAnimation() !== null) {
+                    urlMarker.setAnimation(null);
+                } else {
+                    urlMarker.setAnimation(naver.maps.Animation.BOUNCE);
+                }
+            });
+
+            naver.maps.Event.addListener(urlMarker, 'click', function() {
+                if (urlMarker.getAnimation() !== null) {
+                    urlMarker.setAnimation(null);
+                } else {
+                    urlMarker.setAnimation(naver.maps.Animation.BOUNCE);
+                }
+            });
+          }
+      }
+
+      function setDownloadMembersCsv() {
+        const csv = []
+        let columns = ["id", "password", "name", "email", "tel", "address", "addressDetail"];
+
+        csv.push(columns.join(","));
+
+        for(let i=0; i<jsMembers['id'].length; i++){
+          const data = []
+          for(let column of columns){
+            if(column === "address" && JSON.parse(jsMembers[column][i]) != null){
+               data.push(JSON.parse(jsMembers[column][i]).addresses[0].roadAddress);
+            }else {
+              data.push(jsMembers[column][i]);
+            }
+          }
+          csv.push(data.join(","))
+        }
+
+        downloadCSV(csv.join("\n"), "회원정보");
+      }
+      function downloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
+
+        //한글 처리를 해주기 위해 BOM 추가하기
+        const BOM = "\uFEFF";
+        csv = BOM + csv;
+
+        csvFile = new Blob([csv], { type: "text/csv" });
+
+        downloadLink = document.createElement("a");
+        downloadLink.className = "download_button"
+        downloadLink.innerText = filename + " 다운받기"
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        document.querySelector(".main .inner .members__summary").appendChild(downloadLink);
+      }
+      setDownloadMembersCsv();
+    </script>
+  </th:block>
+</html>

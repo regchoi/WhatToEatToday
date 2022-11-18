@@ -1,0 +1,128 @@
+.main {
+  margin: 50px 100px 0px 100px;
+}
+
+.main .inner {
+  padding: 30px 0;
+}
+
+.search {
+  position: relative;
+  margin-bottom: 100px;
+  margin-top: 30px;
+  margin-left: -50px;
+}
+
+.search__bar {
+  width: 100%;
+  padding: 8px 15px;
+  border-radius: 15px 0px 0 15px;
+  border: 0;
+  font-size: var(--font-medium);
+  outline: 0;
+  border: 3px solid var(--color-forest-blues);
+  font-family: "hanna";
+  line-height: 2;
+
+}
+
+.search__button {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: var(--color-forest-blues);
+  border: 0;
+  padding: 8px;
+  font-size: var(--font-medium);
+  border: 3px solid var(--color-forest-blues);
+  border-radius: 0 15px 15px 0;
+  color: whitesmoke;
+  line-height: 2;
+
+}
+
+.search__container {
+  height: 200px;
+  padding-top: 20px;
+  margin: -80px 30px 50px 30px;
+  color: var(--bs-gray-900);
+}
+
+.search__text {
+  color: black;
+  margin-top: 15px;
+  text-align: center;
+  font-size: var(--font-large);
+  font-family: "Jalnan"
+}
+
+.category {
+  height: 200px;
+  width: 250px;
+  margin: 0 auto;
+  margin-right: auto;
+  margin-bottom: 5%;
+  max-width: 100%;
+  min-width: 230px;
+  padding-right: 0px;
+  padding-left: 0px;
+  transform-style: preserve-3d;
+  background: white;
+  color: var(--bs-gray-900);
+}
+
+.category__container {
+  margin-bottom: 20px;
+
+}
+
+.category__all {
+  margin-top: 0px;
+  margin-right: 15%;
+  margin-left: 15%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.category__empty {
+  height: 200px;
+  width: 250px;
+  margin: 0 auto;
+  margin-right: auto;
+  margin-bottom: 5%;
+  max-width: 100%;
+  min-width: auto;
+  padding-right: 0px;
+  padding-left: 0px;
+  background: white;
+  transform-style: preserve-3d;
+  color: var(--bs-gray-900);
+  border-radius: 33px;
+}
+
+.category__button {
+  width: 250px;
+  height: 230px;
+  margin: 0 auto;
+  margin-bottom: 0px;
+  margin-right: auto;
+  padding-bottom: 0px;
+  margin-left: 0px;
+  min-height: auto;
+  padding-right: 0px;
+  padding-left: 0px;
+  transform-style: preserve-3d;
+  color: var(--bs-gray-900);
+  border-color: var(--bs-gray-300);
+  border-color: var(--bs-gray-300);
+  border-radius: 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.category .category__button:hover {
+  background-color: var(--color-forest-blues);
+  color: whitesmoke;
+}

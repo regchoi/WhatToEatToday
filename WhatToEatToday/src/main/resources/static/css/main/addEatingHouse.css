@@ -1,0 +1,71 @@
+.eating_house {
+	padding: 50px;
+	background-color: var(--color-ivory);
+	border-radius: 25px;
+	margin: 40px 70px 70px;
+}
+
+.eating_house__title {
+	font-size: var(--font-large);
+	text-align: center;
+	color: var(--color-crown-diamond);
+	margin-bottom: 50px;
+}
+
+.eating_house__fieldset {
+	border: 3px solid var(--color-limestrong);
+	background-color: white;
+	padding: 8px 0;
+	margin-bottom: 5px;
+	border-radius: 8px;
+}
+
+.eating_house__input {
+	padding: 10px;
+	width: 100%;
+	border-radius: 8px;
+	font-size: 24px;
+	color: var(--color-crown-diamond);
+}
+
+.eating_house__textarea {
+	width: 100%;
+	padding: 10px;
+	border-radius: 8px;
+	resize: none;
+	font-size: 24px;
+	color: var(--color-crown-diamond);
+}
+
+.eating_house__button {
+	font-size: var(--font-medium);
+	padding: 15px;
+	width: 100%;
+	background-color: var(--color-bristol);
+	border-radius: 8px;
+	color: white;
+	border: 0;
+}
+
+.eating_house__input[id="address"] {
+	float: left;
+	width: 78%;
+}
+
+.eating_house__input[id="address"]+.eating_house__button {
+	font-size: var(--font-regular);
+	padding: 10px;
+	width: 20%;
+	background-color: var(--color-limestrong);
+	border-radius: 8px;
+	color: white;
+	border: 0;
+	margin: 0;
+	clear: left;
+	margin-right: 2%;
+}
+
+.eating_house__button:last-child {
+	background-color: var(--color-bristol);
+	margin-top: 30px;
+}

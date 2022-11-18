@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:fragment="header">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrinkto-fit=no"
+    />
+    <!-- Custom styles for this template -->
+
+    <link href="../../static/css/reset.css" rel="stylesheet" />
+    <link href="../../static/css/reset.css" rel="stylesheet" />
+    <link href="../../static/css/global.css" rel="stylesheet" />
+    <link href="../../static/css/header.css" rel="stylesheet" />
+    <link href="../../static/css/main/myPage.css" rel="stylesheet" />
+    <link href="../../static/css/footer.css" rel="stylesheet" />
+    <script
+      src="https://kit.fontawesome.com/bfafa52380.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <title>What to eat Today</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="inner">
+        <h1 class="logo">
+          <a href="/"> 오늘 뭐 먹지? </a>
+        </h1>
+        <nav class="navbar">
+          <ul>
+            <li>
+              <a href="#">로그인</a>
+            </li>
+            <li>
+              <a href="#">회원가입</a>
+            </li>
+            <li>
+              <a href="#">정보</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="main">
+      <div class="inner">
+        <section class="section">
+          <h2>마이페이지</h2>
+          <article class="mypage">
+            <h3 class="blind">마이페이지</h3>
+            <figure class="mypage__img">
+              <img src="../../static/img/sample.webp" alt="">
+              <figcaption class="blind">마이페이지</figcaption>
+            </figure>
+            <ul class="mypage__text">
+              <li class="mypage__text__item"><label>이름:</label><span></span></li>
+              <li class="mypage__text__item"><label>이메일:</label><span></span></li>
+              <li class="mypage__text__item"><label>전화번호:</label><span></span></li>
+              <li class="mypage__text__item"><label>주소:</label><span></span></li>
+              <li class="mypage__text__item"><label>상세주소:</label><span></span></li>
+            </ul>
+            <ul class="mypage__button__list">
+              <li class="mypage__button__item">
+              <button class="mypage__button" href="/">회원정보 수정</button>
+              </li>
+              <li class="mypage__button__item">
+              <button class="mypage__button" href="/">메인으로</button>
+              </li>
+            </ul>
+          </article>
+        </section>
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="inner">
+        <address>팀프로젝트</address>
+      </div>
+    </footer>
+  </body>
+</html>

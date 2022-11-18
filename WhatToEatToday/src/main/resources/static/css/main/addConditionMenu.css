@@ -1,0 +1,65 @@
+.main .inner {
+  padding: 145px 160px;
+}
+
+.eating_house {
+  padding: 40px;
+  border-radius: 25px;
+  background-color: var(--color-evonik-degussa);
+}
+
+.addConditionMenu__title {
+  text-align: center;
+  font-size: var(--font-large);
+  color: var(--color-crown-diamond);
+}
+
+.eating_house .eating_house__fieldset {
+  border: 3px solid var(--color-limestrong);
+  background-color: white;
+  padding-bottom: 10px;
+  margin: 30px 0 5px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.eating_house__legend {
+  font-size: var(--font-regular);
+  padding: 5px 10px;
+  background-color: white;
+  margin-left: 20px;
+  color: var(--color-little-greene);
+  border-radius: 8px;
+}
+
+.eating_house__input {
+  padding: 10px 15px;
+  width: 100%;
+  font-size: var(--font-medium);
+  color: var(--color-crown-diamond);
+}
+
+.eating_house__button__container {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.eating_house__button {
+  margin-top: 30px;
+  font-size: var(--font-medium);
+  padding: 15px;
+  width: 45%;
+  background-color: var(--color-bristol);
+  border-radius: 8px;
+  color: white;
+  border: 0;
+}
+
+.eating_house__button:nth-child(1) {
+	margin-right: 5px;
+}
+
+a.eating_house__button {
+    display: block;
+    text-align: center;
+}

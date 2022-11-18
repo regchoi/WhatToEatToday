@@ -1,0 +1,141 @@
+.main .inner {
+  padding: 30px 0;
+  max-width: 1400px;
+}
+
+.members__details .members__summary {
+  border-radius: 10px;
+}
+
+.members__details[open] .members__summary {
+  border-radius: 10px 10px 0 0;
+}
+
+.members__summary {
+  padding: 20px 30px;
+  font-size: 40px;
+  background-color: var(--color-forest-blues);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.members__summary::marker {
+  display: none;
+  content: "";
+}
+
+input[name="map_active_button"] {
+  display: none;
+}
+
+.members {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid var(--color-forest-blues);
+}
+
+.members .members__caption {
+  border-radius: 5px 5px 0 0;
+  padding: 15px 0 10px;
+  font-size: var(--font-medium);
+  background-color: white;
+}
+
+.members tr th,
+.members tr td {
+  padding: 5px 0;
+  color: black;
+  vertical-align: middle;
+  border: 2px solid var(--color-forest-blues);
+  border-bottom: 2px solid var(--color-forest-blues);
+  background-color: white;
+}
+
+.members tr th {
+  border: 2px solid var(--color-forest-blues);
+  font-size: var(--font-regular);
+  font-family: "NotoSansKR-Bold";
+  border-bottom: 1px solid var(--color-forest-blues);
+}
+
+.members tr td {
+  font-size: var(--font-regular);
+  font-family: "NotoSansKR-Regular";
+  text-align: center;
+}
+
+.members tbody tr td {
+  padding-left: 8px;
+  text-align: left;
+}
+
+.members tbody tr td:nth-child(1) {
+  padding-left: 0px;
+  text-align: center;
+}
+
+.members tbody tr td:nth-child(9) {
+  padding-left: 0px;
+  text-align: center;
+}
+
+.members tbody tr td:nth-child(8) label[for*="map_active_button"] {
+  cursor: pointer;
+  color: var(--color-waterfall);
+  text-decoration: underline;
+}
+
+.members tbody tr td:nth-child(8) label[for*="map_active_button"]:hover {
+  color: var(--color-reef-encounter);
+}
+
+.members tbody tr td:nth-child(8) label[for="map_close_button"] {
+  position: fixed;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  z-index: 1;
+  cursor: pointer;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.members tbody tr td:nth-child(8) label[for="map_close_button"] .map_outer {
+  margin-top: 100px;
+  padding: 30px;
+  background-color: var(--color-olympic);
+  display: inline-block;
+  border-radius: 15px;
+}
+
+.members tbody tr td:nth-child(8) label[for="map_close_button"] .map_inner {
+  width: 1024px;
+  height: 600px;
+  overflow: hidden;
+  border-radius: 10px;
+  z-index: 2;
+}
+
+.members tbody tr td:nth-child(8) label[for="map_close_button"] .map_outer figcaption {
+  margin-top: 30px;
+  color: black;
+  font-family: "hanna";
+}
+
+.members tbody tr td:nth-child(8) label[for="map_close_button"] .map_outer figcaption {
+  font-size: var(--font-medium);
+  text-align: center;
+}
+
+.members tbody tr td:nth-child(8) input[name="map_active_button"]:checked+label[for="map_close_button"] {
+  display: block;
+}
+
+.members tbody tr td:nth-child(9) {
+  color: var(--color-jalapeno-red);
+  text-decoration: underline;
+}

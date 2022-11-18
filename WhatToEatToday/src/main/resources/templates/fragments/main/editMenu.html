@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <main class="main" th:fragment="main">
+    <div class="inner">
+      <form
+        th:action="@{ '/manager/eating_house/edit/' + ${eatingHouse.getId()} + '/menu/edit/' + ${menu.getId()}}"
+        method="post"
+        th:object="${menuForm}"
+        class="menu"
+      >
+        <fieldset class="menu__fieldset">
+          <input type="image" src="/img/category/음식.png" alt=""  class="menu__input" />
+        </fieldset>
+        <fieldset class="menu__fieldset">
+          <legend class="menu__legend">카테고리</legend>
+          <select class="menu__input" th:field="*{category}"}>
+            <option th:each="category : ${cate}" th:if="${category.id} == ${cateid}" th:value="${category.id}" th:text="${category.name}"  th:selected="${category.id}"></option>
+            <option th:each="category : ${cate}" th:unless="${category.id} == ${cateid}" th:value="${category.id}" th:text="${category.name}"></option>
+          </select>
+        </fieldset>
+        <fieldset class="menu__fieldset">
+          <legend class="menu__legend">메뉴명</legend>
+          <input type="text" class="menu__input" th:field="*{name}" />
+        </fieldset>
+        <fieldset class="menu__fieldset">
+          <legend class="menu__legend">가격</legend>
+          <input
+            type="number"
+            class="menu__input"
+            th:field="*{price}"
+            min="0"
+            step="100"
+          />
+        </fieldset>
+        <button class="menu__button">수정</button>
+        <a th:href="@{ '/manager/eating_house/edit/' + ${eatingHouse.getId()} + '/menu/delete/' + ${menu.getId()}}" class="menu__button">삭제</a>
+      </form>
+    </div>
+  </main>
+</html>

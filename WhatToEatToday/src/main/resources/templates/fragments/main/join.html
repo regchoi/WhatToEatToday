@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <main class="main" th:fragment="main">
+    <div class="inner">
+      <button
+        class="join_button"
+        type="button"
+        onclick=" location.href='/join/manager' "
+      >
+        <figure>
+           <i class="fa-solid fa-user-gear join_button__icon"></i> 
+          <figcaption class="join_button__text">매니저</figcaption>
+        </figure>
+      </button>
+      <button
+        class="join_button"
+        type="button"
+        onclick=" location.href='/join/customer' "
+      >
+        <figure>
+           <i class="fa-solid fa-users join_button__icon"></i> 
+          <figcaption class="join_button__text">고객</figcaption>
+        </figure>
+      </button>
+    </div>
+    
+
+    
+    
+  </main>
+</html>

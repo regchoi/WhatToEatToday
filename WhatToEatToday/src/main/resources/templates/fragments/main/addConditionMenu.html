@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <main class="main" th:fragment="main">
+    <div class="inner">
+      <form
+        th:action="@{'/admin/admin_recommend/editCondition/' + ${conditionId} + '/addMenu/'}"
+        method="post"
+        th:object="${editConditionForm}"
+        class="eating_house"
+      >
+		<address class="addConditionMenu__title">메뉴 추가하기</address>
+          <fieldset class="eating_house__fieldset">
+            <legend class="eating_house__legend">메뉴명</legend>
+            <input
+              id="after"
+              th:field="*{after}"
+              class="eating_house__input"
+              type="text"
+            />
+          </fieldset>
+        </fieldset>
+        <fieldset class="eating_house__button__container">
+        	<button class="eating_house__button">추가하기</button>
+        	<a class="eating_house__button" th:href="@{'/admin/admin_recommend/editCondition/' + ${conditionId}}">돌아가기</a>
+      	</fieldset>
+      </form>
+    </div>
+  </main>
+</html>

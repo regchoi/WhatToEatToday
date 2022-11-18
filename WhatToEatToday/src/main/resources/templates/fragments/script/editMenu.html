@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <th:block th:fragment="script">
+    <script th:inline="javascript">
+      function formSet() {
+        const menuName = [[${menu.getName()}]];
+        const name = document.querySelector("input[name='name']");
+        name.value = menuName;
+        const menuPrice = [[${menu.getPrice()}]];
+        const price = document.querySelector("input[name='price']");
+        price.value = menuPrice;
+      }
+      formSet()
+    </script>
+  </th:block>
+</html>

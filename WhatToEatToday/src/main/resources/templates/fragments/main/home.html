@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <main class="main" th:fragment="main">
+    <section class="highlight-clean">
+      <div class="search__container">
+          <div class="intro">
+              <a href="/"><h2 class="search__text">"오늘 뭐 먹지?"</h2></a>
+          </div>
+          <div class="inner">
+            <form action="/search" method="get">
+              <fieldset class="search">
+                <input
+                  type="text"
+                  name="name"
+                  class="search__bar"
+                  placeholder="메뉴를 검색하세요"/>
+                <button class="search__button" type="submit" th:onclick="|location.href='@{/search}'|">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+              </fieldset>
+            </form>
+          </div>
+      </div>
+    </section>
+
+    <div class="category__container">
+      <div class="category__all">
+          <div class="category"><button class="category__button" type="button" th:onclick="|location.href='@{/customer/recommend}'|" style= "background-image: url(/img/category/메뉴추천받기.png)";></button></div>
+          <div class="category"><button class="category__button" type="button" th:onclick="|location.href='@{/customer/eating_house/All}'|" style= "background-image: url(/img/category/전체메뉴보기.png)";></button></div>
+          <div class="category"><button class="category__button" type="button" th:onclick="|location.href='@{/customer/eating_house/Kfood}'|" style= "background-image: url(/img/category/한식.png)";></button></div>
+          <div class="category"><button class="category__button" type="button" th:onclick="|location.href='@{/customer/eating_house/Jfood}'|" style= "background-image: url(/img/category/일식.png)";></button></div>
+          <div class="category"><button class="category__button" type="button" th:onclick="|location.href='@{/customer/eating_house/Cfood}'|" style= "background-image: url(/img/category/중식.png)";></button></div>
+          <div class="category"><button class="category__button" type="button" th:onclick="|location.href='@{/customer/eating_house/Wfood}'|" style= "background-image: url(/img/category/양식.png)";></button></div>
+          <div class="category"><button class="category__button" type="button" th:onclick="|location.href='@{/customer/eating_house/Chicken}'|" style= "background-image: url(/img/category/치킨.png)";></button></div>
+          <div class="category"><button class="category__button" type="button" th:onclick="|location.href='@{/customer/eating_house/Bunsik}'|" style= "background-image: url(/img/category/분식.png)";></button></div>
+          <div class="category"><button class="category__button" type="button" th:onclick="|location.href='@{/customer/eating_house/Dessert}'|" style= "background-image: url(/img/category/디저트.png)";></button></div>
+          <div class="category__empty"></div>
+          <div class="category__empty"></div>
+          <div class="category__empty"></div>
+      </div>
+    </div>
+  </main>
+</html>

@@ -1,0 +1,119 @@
+.main p {
+  font-size: 22px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: darkslategray;
+}
+
+.main .inner {
+  max-width: 1200px;
+  padding: 0px 20px 100px;
+}
+
+.main input {
+  display: none;
+}
+
+
+#keyword_nav__trigger01:checked~.keyword_nav li:nth-child(1) .keyword_nav__item {
+  background-color: var(--color-forest-blues);
+  color: white;
+  transition: none;
+}
+
+#keyword_nav__trigger02:checked~.keyword_nav li:nth-child(2) .keyword_nav__item {
+  background-color: var(--color-forest-blues);
+  color: white;
+  transition: none;
+}
+
+#keyword_nav__trigger03:checked~.keyword_nav li:nth-child(3) .keyword_nav__item {
+  background-color: var(--color-forest-blues);
+  color: white;
+  transition: none;
+}
+
+.main .keyword_nav ul::after {
+  content: "";
+  width: 100%;
+  display: block;
+  clear: both;
+}
+
+.main .keyword_nav ul li {
+  width: calc(100% / 3);
+  float: left;
+}
+
+.main .keyword_nav ul li .keyword_nav__item {
+  padding: 30px 0;
+  font-size: 24px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  border: 8px solid rgba(0, 0, 0, 0.2);
+  background-color: var(--color-snowflake-white);
+}
+
+.main .keyword_box .keyword_box__item {
+  display: none;
+}
+
+.main .keyword_box .keyword_box__item form {
+  border: 8px solid rgba(0, 0, 0, 0.2);
+
+
+}
+
+.main .keyword_box .keyword_box__item form::after {
+  content: "";
+  width: 100%;
+  display: block;
+  clear: both;
+}
+
+.main .keyword_box .keyword_box__item form label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  width: 20%;
+  font-size: var(--font-regular);
+  height: 100px;
+  color: black;
+}
+
+.main .keyword_box .keyword_box__item form label:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+
+.main .keyword_box .keyword_box__item form input:checked+label {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+#keyword_nav__trigger01:checked~.keyword_box li.keyword_box__item:nth-child(1) {
+  display: block;
+}
+
+#keyword_nav__trigger02:checked~.keyword_box li.keyword_box__item:nth-child(2) {
+  display: block;
+}
+
+#keyword_nav__trigger03:checked~.keyword_box li.keyword_box__item:nth-child(3) {
+  display: block;
+}
+
+.main .inner button {
+  display: block;
+  width: 50%;
+  padding: 20px 0;
+  font-size: var(--font-regular);
+  float: left;
+  color: black;
+  border: 8px solid rgba(0, 0, 0, 0.2);
+}

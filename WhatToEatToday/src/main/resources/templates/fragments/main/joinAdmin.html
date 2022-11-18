@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <main class="main" th:fragment="main">
+    <div class="inner">
+      <form
+        action="/join/admin"
+        method="post"
+        th:object="${joinForm}"
+        class="join"
+      >
+      <address class="join__title">관리자 회원가입</address>
+      <fieldset class="join__fieldset">
+        <input
+          class="join__input"
+          type="text"
+          th:field="*{id}"
+          placeholder="아이디"
+          autocomplete="off"
+          required
+        />
+      </fieldset>
+      <fieldset class="join__fieldset">
+        <input
+          class="join__input"
+          type="password"
+          th:field="*{password}"
+          placeholder="비밀번호"
+          autocomplete="off"
+          required
+        />
+      </fieldset>
+      <fieldset class="join__fieldset">
+        <input
+          class="join__input"
+          type="text"
+          th:field="*{name}"
+          placeholder="이름"
+          autocomplete="off"
+          required
+        />
+      </fieldset>
+      <fieldset class="join__fieldset">
+        <input
+          class="join__input"
+          type="email"
+          th:field="*{email}"
+          placeholder="이메일"
+          autocomplete="off"
+          required
+        />
+      </fieldset>
+      <fieldset class="join__fieldset">
+        <input
+          class="join__input"
+          type="tel"
+          th:field="*{tel}"
+          placeholder="전화번호"
+          autocomplete="off"
+          required
+        />
+      </fieldset>
+      <fieldset class="join__fieldset">
+        <input
+          class="blind"
+          id="address-info"
+          type="text"
+          th:field="*{address}"
+        />
+        <input
+          class="join__input"
+          type="text"
+          id="address"
+          onkeyup="addressEmptyCheck()"
+          onclick="getAddress()"
+          placeholder="주소"
+          autocomplete="off"
+          required
+        />
+        <button type="button" class="join__button" onclick="getAddress()">
+          주소 검색
+        </button>
+        <input
+                class="join__input"
+                type="text"
+                placeholder="상세주소"
+                autocomplete="off"
+                required
+                th:field="*{addressDetail}"
+        />
+      </fieldset>
+      <button class="join__button">가입하기</button>
+    </form>
+    </div>
+  </main>
+</html>

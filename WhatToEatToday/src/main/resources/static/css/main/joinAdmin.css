@@ -1,0 +1,61 @@
+.join {
+  padding: 50px 100px 50px;
+  border: 5px double var(--color-forest-blues);
+  border-radius: 25px;
+  margin: 50px 50px 100px;
+}
+
+.join__fieldset {
+  border: 3px solid var(--color-forest-blues);
+  background-color: white;
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 8px;
+}
+
+.join__title {
+  font-size: var(--font-large);
+  text-align: center;
+  color: var(--color-forest-blues);
+  margin-bottom: 50px;
+}
+
+.join__input {
+  padding: 10px;
+  width: 100%;
+  font-size: var(--font-regular);
+  border-radius: 8px;
+}
+
+.join__button {
+  font-size: var(--font-medium);
+  padding: 15px;
+  width: 100%;
+  background-color: var(--color-spray);
+  border-radius: 8px;
+  color: white;
+  border: 0;
+}
+
+.join__input[id="address"] {
+  float: left;
+  width: 78%;
+}
+
+.join__input[id="address"]+.join__button {
+  font-size: var(--font-regular);
+  padding: 10px;
+  width: 20%;
+  background-color: var(--color-spray);
+  border-radius: 8px;
+  color: white;
+  border: 0;
+  margin: 0;
+  clear: left;
+  margin-right: 2%;
+}
+
+.join__button:last-child {
+  background-color: var(--color-dupain);
+  margin-top: 30px;
+}

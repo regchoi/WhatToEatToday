@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="script">
+    <script th:inline="javascript">
+      const p = document.querySelectorAll("#eatingHouse_address")
+      const p2 = document.querySelectorAll(".eating_house__text p:nth-child(3)")
+      function setAddress() {
+        let i = 0
+        p.forEach(function(item){
+            const address = JSON.parse(item.innerText);
+            item.innerText = address.addresses[0].roadAddress + " " + p2[i].innerText;
+            i += 1
+          })
+      }
+      setAddress();
+    </script>
+</th:block>
+</html>

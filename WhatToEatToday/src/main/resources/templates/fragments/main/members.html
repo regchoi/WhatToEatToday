@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <main class="main" th:fragment="main">
+    <div class="inner">
+      <details class="members__details">
+        <summary class="members__summary">
+          회원정보
+        </summary>
+        <p>
+          <input type="radio" name="map_active_button" id="map_close_button" checked/>
+          <table class="members">
+            <caption class="members__caption blind">
+              회원정보
+            </caption>
+            <colgroup>
+              <col class="no_space" />
+              <col class="type_space" />
+              <col class="id_space" />
+              <col class="password_space" />
+              <col class="name_space" />
+              <col class="email_space" />
+              <col class="tel_space" />
+              <col class="address_space" />
+              <col class="edit_space" />
+              <col class="delete_space" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>유형</th>
+                <th>아이디</th>
+                <th>비밀번호</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>전화번호</th>
+                <th>주소</th>
+                <th>삭제</th>
+              </tr>
+            </thead>
+            <tbody class="members_body">
+              <tr th:each="member, iterStat : ${members}">
+                <td th:text="${iterStat.count}">No</td>
+                <td th:text="${member.getClass().getSimpleName()}">유형</td>
+                <td th:text="${member.getId()}">아이디</td>
+                <td th:text="${member.getPassword()}">패스워드</td>
+                <td th:text="${member.getName()}">이름</td>
+                <td th:text="${member.getEmail()}">이메일</td>
+                <td th:text="${member.getTel()}">전화번호</td>
+                <td>주소</td>
+                <td><a th:href="@{'/admin/members/delete/' + ${member.getId()}} ">delete</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </p>
+      </details>
+    </div>
+  </main>
+</html>
