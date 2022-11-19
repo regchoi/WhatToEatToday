@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import team.project.WhatToEatToday.Service.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,14 +14,11 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class LogoutController {
 
+    private final MemberService memberService;
+
     @GetMapping
     public String getLogout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.setAttribute("login", null);
-        session.setAttribute("member", null);
-        session.setAttribute("memberType", null);
-        session.setAttribute("message", "로그아웃");
-        return "redirect:/";
+        return memberService.getLogout(request);
     }
 
 }

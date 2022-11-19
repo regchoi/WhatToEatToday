@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import team.project.WhatToEatToday.Service.AdminService;
 import team.project.WhatToEatToday.Service.CustomerService;
 import team.project.WhatToEatToday.Service.ManagerService;
+import team.project.WhatToEatToday.Service.MemberService;
 import team.project.WhatToEatToday.domain.member.Admin;
 import team.project.WhatToEatToday.domain.member.Customer;
 import team.project.WhatToEatToday.domain.member.Manager;
@@ -27,93 +28,40 @@ public class JoinController {
     private final ManagerService managerService;
     private final CustomerService customerService;
 
+    private final MemberService memberService;
+
     @GetMapping("")
     public String getJoin(Model model) {
-        model.addAttribute("page", "join");
-        return "layout";
+        return memberService.getJoin(model);
     }
 
     @GetMapping("/admin")
     public String getJoinAdmin(Model model) {
-        model.addAttribute("page", "joinAdmin");
-        model.addAttribute("joinForm", new JoinForm());
-        return "layout";
+        return memberService.getJoinAdmin(model);
     }
 
     @PostMapping("/admin")
     public String postJoinAdmin(HttpServletRequest request, @Valid JoinForm joinForm) {
-        HttpSession session = request.getSession();
-        try {
-            Admin admin = new Admin();
-            admin.setId(joinForm.getId());
-            admin.setPassword(joinForm.getPassword());
-            admin.setName(joinForm.getName());
-            admin.setEmail(joinForm.getEmail());
-            admin.setTel(joinForm.getTel());
-            admin.setAddress(joinForm.getAddress());
-            admin.setAddressDetail(joinForm.getAddressDetail());
-            adminService.join(admin);
-            session.setAttribute("message", "회원가입 되셨습니다.");
-            return "redirect:/";
-        } catch (IllegalStateException e) {
-            session.setAttribute("message", "이미 존재하는 아이디 입니다.");
-            return "redirect:/join/admin";
-        }
+        return memberService.postJoinAdmin(request, joinForm);
     }
 
     @GetMapping("/manager")
     public String getJoinManager(Model model) {
-        model.addAttribute("page", "joinManager");
-        model.addAttribute("joinForm", new JoinForm());
-        return "layout";
+        return memberService.getJoinManager(model);
     }
 
     @PostMapping("/manager")
     public String postJoinManager(HttpServletRequest request, @Valid JoinForm joinForm) {
-        HttpSession session = request.getSession();
-        try {
-            Manager manager = new Manager();
-            manager.setId(joinForm.getId());
-            manager.setPassword(joinForm.getPassword());
-            manager.setName(joinForm.getName());
-            manager.setEmail(joinForm.getEmail());
-            manager.setTel(joinForm.getTel());
-            manager.setAddress(joinForm.getAddress());
-            manager.setAddressDetail(joinForm.getAddressDetail());
-            managerService.join(manager);
-            session.setAttribute("message", "회원가입 되셨습니다.");
-            return "redirect:/";
-        } catch (IllegalStateException e) {
-            session.setAttribute("message", "이미 존재하는 아이디 입니다.");
-            return "redirect:/join/manager";
-        }
+        return memberService.postJoinManager(request, joinForm);
     }
 
     @GetMapping("/customer")
     public String getJoinCustomer(Model model) {
-        model.addAttribute("page", "joinCustomer");
-        model.addAttribute("joinForm", new JoinForm());
-        return "layout";
+        return memberService.getJoinCustomer(model);
     }
 
     @PostMapping("/customer")
     public String postJoinCustomer(HttpServletRequest request, @Valid JoinForm joinForm) {
-        HttpSession session = request.getSession();
-        try {
-            Customer customer = new Customer();
-            customer.setId(joinForm.getId());
-            customer.setPassword(joinForm.getPassword());
-            customer.setName(joinForm.getName());
-            customer.setEmail(joinForm.getEmail());
-            customer.setTel(joinForm.getTel());
-            customer.setAddress(joinForm.getAddress());
-            customer.setAddressDetail(joinForm.getAddressDetail());
-            customerService.join(customer);
-            session.setAttribute("message", "회원가입 되셨습니다.");
-            return "redirect:/";
-        } catch (IllegalStateException e) {
-            session.setAttribute("message", "이미 존재하는 아이디 입니다.");
-            return "redirect:/join/customer";
-        }
+        return memberService.postJoinCustomer(request, joinForm);
     }
 }

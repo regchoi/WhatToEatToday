@@ -35,8 +35,7 @@
                 </th:block>
                 <th:block th:case="Customer">
                     <li>
-                        <a th:href="@{'/customer/mypage(customerId=${session.member.getId()})'}" >마이페이지</a>
-                    </li>
+                        <a th:href="@{/customer/mypage/{id}(id = ${session.id}) }" >마이페이지</a>                    </li>
                 </th:block>
                 <li>
                     <a href="/logout">로그아웃</a>

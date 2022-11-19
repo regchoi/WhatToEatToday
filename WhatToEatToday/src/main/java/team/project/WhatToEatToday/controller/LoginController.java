@@ -23,30 +23,12 @@ public class LoginController {
 
     @GetMapping
     public String getlogin(Model model) {
-        model.addAttribute("page", "login");
-        model.addAttribute("loginForm", new LoginForm());
-        return "layout";
+        return memberService.getlogin(model);
     }
 
     @PostMapping
     public String postlogin(HttpServletRequest request, @Valid LoginForm loginForm) {
-        HttpSession session = request.getSession();
-        try {
-            Member member = memberService.findOne(loginForm.getId());
-            if(member.getPassword().equals(loginForm.getPassword())) {
-                session.setAttribute("login", "logined");
-                session.setAttribute("member", member);
-                session.setAttribute("memberType", member.getClass().getSimpleName());
-                session.setAttribute("message", "로그인 성공");
-                return "redirect:";
-            } else {
-                session.setAttribute("message", "비밀번호가 올바르지 않습니다.");
-                return "redirect:/login";
-            }
-        } catch (Exception e){
-            session.setAttribute("message", "아이디가 존재하지 않습니다.");
-            return "redirect:/login";
-        }
+        return memberService.postlogin(request, loginForm);
     }
 
 }
