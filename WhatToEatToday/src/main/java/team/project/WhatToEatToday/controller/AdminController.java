@@ -39,8 +39,8 @@ public class AdminController {
     }
 
     @GetMapping("/admin_recommend")
-    public String recommendMenu(HttpServletRequest request, Model model) {
-        return adminService.recommendMenu(request, model);
+    public String recommendMenu(Model model) {
+        return adminService.recommendMenu(model);
     }
 
     @GetMapping("/admin_recommend/editConcate/{ConcateNumber}")

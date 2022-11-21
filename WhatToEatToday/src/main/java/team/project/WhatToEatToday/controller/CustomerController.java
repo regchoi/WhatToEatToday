@@ -49,20 +49,20 @@ public class CustomerController {
         return customerService.getEditMypage(customerId, model, joinForm);
     }
 
-    @PostMapping("/mypage/edit/{customerId}")
-    public String postEditMypage(HttpServletRequest request , @PathVariable String customerId, @Valid JoinForm joinForm) {
-        return customerService.postEditMypage(request, customerId, joinForm);
-    }
+//    @PostMapping("/mypage/edit/{customerId}")
+//    public String postEditMypage(HttpServletRequest request , @PathVariable String customerId, @Valid JoinForm joinForm) {
+//        return customerService.postEditMypage(request, customerId, joinForm);
+//    }
 
-    @GetMapping("/mypage/delete/{customerId}")
-    public String deleteMypage(HttpServletRequest request , @PathVariable String customerId) {
-        return customerService.deleteMypage(request, customerId);
-    }
+//    @GetMapping("/mypage/delete/{customerId}")
+//    public String deleteMypage(HttpServletRequest request , @PathVariable String customerId) {
+//        return customerService.deleteMypage(request, customerId);
+//    }
 
-	@GetMapping("/recommend")
-    public String recommendMenu(HttpServletRequest request, Model model, LongIdForm longIdForm) {
-        return customerService.recommendMenu(request, model, longIdForm);
-    }
+//	@GetMapping("/recommend")
+//    public String recommendMenu(HttpServletRequest request, Model model, LongIdForm longIdForm) {
+//        return customerService.recommendMenu(request, model, longIdForm);
+//    }
 
 	@GetMapping("/recommendResult")
     public String recommendMenuResult(LongIdForm longIdForm, Model model, @RequestParam(name = "longId", required = false) List<Long> longid) {

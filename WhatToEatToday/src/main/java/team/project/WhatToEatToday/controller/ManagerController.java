@@ -32,20 +32,20 @@ public class ManagerController {
     private final CategoryService categoryService;
     private final CrossMenuService crossMenuService;
 
-    @GetMapping("/eating_house")
-    public String getManager(HttpServletRequest request, Model model) {
-        return managerService.getManager(request, model);
-    }
+//    @GetMapping("/eating_house")
+//    public String getManager(HttpServletRequest request, Model model) {
+//        return managerService.getManager(request, model);
+//    }
 
     @GetMapping("/eating_house/add")
     public String getAddEatingHouse(Model model) {
         return managerService.getAddEatingHouse(model);
     }
 
-    @PostMapping("/eating_house/add")
-    public String postAddEatingHouse(HttpServletRequest request, @Valid EatingHouseForm eatingHouseForm) {
-        return managerService.postAddEatingHouse(request, eatingHouseForm);
-    }
+//    @PostMapping("/eating_house/add")
+//    public String postAddEatingHouse(HttpServletRequest request, @Valid EatingHouseForm eatingHouseForm) {
+//        return managerService.postAddEatingHouse(request, eatingHouseForm);
+//    }
 
 
     @GetMapping("/eating_house/edit/{eatingHouseId}")

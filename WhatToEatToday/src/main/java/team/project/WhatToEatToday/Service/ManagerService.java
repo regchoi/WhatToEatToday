@@ -33,19 +33,19 @@ public class ManagerService {
     private final CrossMenuService crossMenuService;
 
 
-    @Transactional
-    public String join(Manager manager) {
-        validateDuplicateAdmin(manager);
-        managerRepository.save(manager);
-        return manager.getId();
-    }
-
-    private void validateDuplicateAdmin(Manager manager) {
-        List<Manager> findAdmins = managerRepository.findById(manager.getId());
-        if(!findAdmins.isEmpty()) {
-            throw new IllegalStateException();
-        }
-    }
+//    @Transactional
+//    public String join(Manager manager) {
+//        validateDuplicateAdmin(manager);
+//        managerRepository.save(manager);
+//        return manager.getId();
+//    }
+//
+//    private void validateDuplicateAdmin(Manager manager) {
+//        List<Manager> findAdmins = managerRepository.findById(manager.getId());
+//        if(!findAdmins.isEmpty()) {
+//            throw new IllegalStateException();
+//        }
+//    }
 
     //회원 전체 조회
     public List<Manager> findManagers() {
@@ -56,26 +56,26 @@ public class ManagerService {
         return managerRepository.findOne(managerId);
     }
 
-    @Transactional
-    public String delete(Manager manager) {
-        String deletedManagerId = manager.getId();
-        managerRepository.delete(manager);
-        return deletedManagerId;
-    }
-
-    public String getManager(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        try {
-            Member member = (Member) session.getAttribute("member");
-            Manager manager = managerRepository.findOne(member.getId());
-            model.addAttribute("page", "manager");
-            model.addAttribute("eatingHouses", manager.getEatingHouses());
-            return "layout";
-        } catch (Exception e){
-            session.setAttribute("message", "유저 정보가 올바르지 않습니다.");
-            return "redirect:/logout";
-        }
-    }
+//    @Transactional
+//    public String delete(Manager manager) {
+//        String deletedManagerId = manager.getId();
+//        managerRepository.delete(manager);
+//        return deletedManagerId;
+//    }
+//
+//    public String getManager(HttpServletRequest request, Model model) {
+//        HttpSession session = request.getSession();
+//        try {
+//            Member member = (Member) session.getAttribute("member");
+//            Manager manager = managerRepository.findOne(member.getId());
+//            model.addAttribute("page", "manager");
+//            model.addAttribute("eatingHouses", manager.getEatingHouses());
+//            return "layout";
+//        } catch (Exception e){
+//            session.setAttribute("message", "유저 정보가 올바르지 않습니다.");
+//            return "redirect:/logout";
+//        }
+//    }
 
     public String getAddEatingHouse(Model model) {
         model.addAttribute("page", "addEatingHouse");
@@ -83,25 +83,25 @@ public class ManagerService {
         return "layout";
     }
 
-    public String postAddEatingHouse(HttpServletRequest request, @Valid EatingHouseForm eatingHouseForm) {
-        HttpSession session = request.getSession();
-        try {
-            EatingHouse eatingHouse = new EatingHouse();
-            eatingHouse.setName(eatingHouseForm.getName());
-            eatingHouse.setDescription(eatingHouseForm.getDescription());
-            Member member = (Member) session.getAttribute("member");
-            Manager manager = findOne(member.getId());
-            eatingHouse.setManager(manager);
-            eatingHouse.setAddress(eatingHouseForm.getAddress());
-            eatingHouse.setAddressDetail(eatingHouseForm.getAddressDetail());
-            eatingHouseService.join(eatingHouse);
-            session.setAttribute("message", "매장 등록 성공");
-            return "redirect:/manager/eating_house";
-        } catch (Exception e) {
-            session.setAttribute("message", "매장 등록 실패");
-            return "redirect:/manager/eating_house/add";
-        }
-    }
+//    public String postAddEatingHouse(HttpServletRequest request, @Valid EatingHouseForm eatingHouseForm) {
+//        HttpSession session = request.getSession();
+//        try {
+//            EatingHouse eatingHouse = new EatingHouse();
+//            eatingHouse.setName(eatingHouseForm.getName());
+//            eatingHouse.setDescription(eatingHouseForm.getDescription());
+//            Member member = (Member) session.getAttribute("member");
+//            Manager manager = findOne(member.getId());
+//            eatingHouse.setManager(manager);
+//            eatingHouse.setAddress(eatingHouseForm.getAddress());
+//            eatingHouse.setAddressDetail(eatingHouseForm.getAddressDetail());
+//            eatingHouseService.join(eatingHouse);
+//            session.setAttribute("message", "매장 등록 성공");
+//            return "redirect:/manager/eating_house";
+//        } catch (Exception e) {
+//            session.setAttribute("message", "매장 등록 실패");
+//            return "redirect:/manager/eating_house/add";
+//        }
+//    }
 
     public String getEatingHouseEdit(@PathVariable Long eatingHouseId, Model model, EatingHouseForm eatingHouseForm) {
         model.addAttribute("page", "editEatingHouse");

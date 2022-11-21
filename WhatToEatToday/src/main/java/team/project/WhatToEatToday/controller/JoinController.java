@@ -37,12 +37,12 @@ public class JoinController {
 
     @GetMapping("/admin")
     public String getJoinAdmin(Model model) {
-        return memberService.getJoinAdmin(model);
+        return adminService.getJoinAdmin(model);
     }
 
     @PostMapping("/admin")
     public String postJoinAdmin(HttpServletRequest request, @Valid JoinForm joinForm) {
-        return memberService.postJoinAdmin(request, joinForm);
+        return adminService.postJoinAdmin(request, joinForm);
     }
 
     @GetMapping("/manager")

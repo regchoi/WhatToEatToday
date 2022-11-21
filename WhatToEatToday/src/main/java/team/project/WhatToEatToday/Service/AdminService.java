@@ -13,22 +13,21 @@ import team.project.WhatToEatToday.domain.member.Manager;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.EditConcateForm;
 import team.project.WhatToEatToday.dto.EditConditionForm;
+import team.project.WhatToEatToday.dto.JoinForm;
 import team.project.WhatToEatToday.repository.member.AdminRepository;
+import team.project.WhatToEatToday.repository.member.MemberRepository;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AdminService {
-    private final EntityManager em;
-    private final AdminRepository adminRepository;
-    private final MemberService memberService;
-    private final ManagerService managerService;
-    private final CustomerService customerService;
+    private final MemberRepository memberRepository;
     private final ConditionService conditionService;
     private final ConditionCategoryService conditionCategoryService;
     private final ConditionMenuService conditionMenuService;
@@ -36,42 +35,17 @@ public class AdminService {
     private final MenuService menuService;
 
 
+//
+//    private void validateDuplicateAdmin(Admin admin) {
+//        List<Admin> findAdmins = adminRepository.findById(admin.getId());
+//        if(!findAdmins.isEmpty()) {
+//            throw new IllegalStateException();
+//        }
+//    }
 
-
-
-
-    @Transactional
-    public String join(Admin admin) {
-        validateDuplicateAdmin(admin);
-        adminRepository.save(admin);
-        return admin.getId();
-    }
-
-    private void validateDuplicateAdmin(Admin admin) {
-        List<Admin> findAdmins = adminRepository.findById(admin.getId());
-        if(!findAdmins.isEmpty()) {
-            throw new IllegalStateException();
-        }
-    }
-
-    //회원 전체 조회
-    public List<Admin> findAdmins() {
-        return adminRepository.findAll();
-    }
-
-    public Admin findOne(String adminId) {
-        return adminRepository.findOne(adminId);
-    }
-
-    @Transactional
-    public String delete(Admin admin) {
-        String deletedAdminId = admin.getId();
-        adminRepository.delete(admin);
-        return deletedAdminId;
-    }
 
     public String getMembers(Model model) {
-        List<Member> members = memberService.findAll();
+        List<Member> members = memberRepository.findAll();
         ArrayList<String> memberKindList = new ArrayList<>(Arrays.asList("Admin", "Manager", "Customer"));
         members.sort(Comparator.comparingInt(a -> memberKindList.indexOf(a.getClass().getSimpleName())));
 
@@ -84,7 +58,7 @@ public class AdminService {
         List<String> membersAddress = new ArrayList<>();
         List<String> membersAddressDetail = new ArrayList<>();
         for (Member member : members){
-            membersId.add(member.getId());
+            membersId.add(member.getLoginId());
             membersPassword.add(member.getPassword());
             membersName.add(member.getName());
             membersEmail.add(member.getEmail());
@@ -110,20 +84,20 @@ public class AdminService {
     public String deleteMembers(HttpServletRequest request, @PathVariable String memberId) {
         HttpSession session = request.getSession();
         RestTemplate restTemplate = new RestTemplate();
-        Member member = memberService.findOne(memberId);
+        Member member = memberRepository.findOneByLoginId(memberId);
         String memberClassName = member.getClass().getSimpleName();
         switch (memberClassName){
             case "Admin":
-                Admin admin = findOne(memberId);
-                delete(admin);
+                Admin admin = (Admin) memberRepository.findOneByLoginId(memberId);
+                memberRepository.delete(admin);
                 return "redirect:/logout";
             case "Manager":
-                Manager manager = managerService.findOne(memberId);
-                managerService.delete(manager);
+                Manager manager = (Manager) memberRepository.findOneByLoginId(memberId);
+                memberRepository.delete(manager);
                 break;
             case "Customer":
-                Customer customer = customerService.findOne(memberId);
-                customerService.delete(customer);
+                Customer customer = (Customer) memberRepository.findOneByLoginId(memberId);
+                memberRepository.delete(customer);
                 break;
             default:
                 session.setAttribute("message", "오류");
@@ -132,11 +106,10 @@ public class AdminService {
         return "redirect:/admin/members";
     }
 
-    public String recommendMenu(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-
-        Member member = (Member) session.getAttribute("member");
-        member.getId().isBlank();
+    public String recommendMenu(Model model) {
+//        HttpSession session = request.getSession();
+//        Member member = (Member) session.getAttribute("member");
+//        member.getId().isBlank();
 
         List<Condition> conditionList1 = conditionService.findCate1(1L);
         model.addAttribute("condition1", conditionList1);
@@ -151,8 +124,6 @@ public class AdminService {
         model.addAttribute("concate2", concate2);
         ConditionCategory concate3 = conditionCategoryService.findOne(3L);
         model.addAttribute("concate3", concate3);
-
-
 
         model.addAttribute("page", "menuRecommendAdmin");
         return "layout";
@@ -360,6 +331,31 @@ public class AdminService {
             }
         }
         return "redirect:/admin/admin_recommend/editCondition/{conditionId}";
+    }
+    public String postJoinAdmin(HttpServletRequest request, @Valid JoinForm joinForm) {
+        HttpSession session = request.getSession();
+        try {
+            Admin admin = new Admin();
+            admin.setLoginId(joinForm.getId());
+            admin.setPassword(joinForm.getPassword());
+            admin.setName(joinForm.getName());
+            admin.setEmail(joinForm.getEmail());
+            admin.setTel(joinForm.getTel());
+            admin.setAddress(joinForm.getAddress());
+            admin.setAddressDetail(joinForm.getAddressDetail());
+            memberRepository.save(admin);
+            session.setAttribute("message", "회원가입 되셨습니다.");
+            return "redirect:/";
+        } catch (IllegalStateException e) {
+            session.setAttribute("message", "이미 존재하는 아이디 입니다.");
+            return "redirect:/join/admin";
+        }
+    }
+
+    public String getJoinAdmin(Model model) {
+        model.addAttribute("page", "joinAdmin");
+        model.addAttribute("joinForm", new JoinForm());
+        return "layout";
     }
 }
 

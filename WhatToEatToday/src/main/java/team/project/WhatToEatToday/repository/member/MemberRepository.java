@@ -1,30 +1,14 @@
 package team.project.WhatToEatToday.repository.member;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import team.project.WhatToEatToday.domain.member.Member;
 
-import javax.persistence.EntityManager;
-import java.util.List;
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-@Repository
-@RequiredArgsConstructor
-public class MemberRepository {
-    public final EntityManager em;
+    @Query("select m from Member m where m.loginId= :loginid")
+    Member findOneByLoginId(@Param("loginid") String id);
 
-    public Member findOne(String id) {
-        return em.find(Member.class, id);
-    }
-
-    public List<Member> findAll() {
-        return em.createQuery("SELECT m FROM Member m", Member.class)
-                .getResultList();
-    }
-
-    public List<Member> findById(String id) {
-        return em.createQuery("SELECT m FROM Member m where m.id = :id", Member.class)
-                .setParameter("id", id)
-                .getResultList();
-    }
-
+    Boolean existsByLoginId(String id);
 }

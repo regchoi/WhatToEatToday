@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +15,12 @@ import java.util.List;
 @DiscriminatorColumn(name = "dtype")
 public abstract class Member {
 
-    @Id @NotEmpty
+    @Id @GeneratedValue
     @Column(name = "member_id")
-    private String id;
+    private Long id;
 
+    @NotEmpty
+    private String loginId;
     private String password;
     private String name;
     private String email;

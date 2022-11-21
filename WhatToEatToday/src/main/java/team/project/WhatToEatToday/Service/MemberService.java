@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import team.project.WhatToEatToday.domain.member.Admin;
 import team.project.WhatToEatToday.domain.member.Customer;
 import team.project.WhatToEatToday.domain.member.Manager;
 import team.project.WhatToEatToday.domain.member.Member;
@@ -12,7 +11,6 @@ import team.project.WhatToEatToday.dto.JoinForm;
 import team.project.WhatToEatToday.dto.LoginForm;
 import team.project.WhatToEatToday.repository.member.MemberRepository;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -22,49 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberService {
-    private final AdminService adminService;
-    private final ManagerService managerService;
-    private final CustomerService customerService;
+
     private final MemberRepository memberRepository;
-
-    //회원 전체 조회
-    public List<Member> findAll() {
-        return memberRepository.findAll();
-    }
-
-    public Member findOne(String memberId) {
-        return memberRepository.findOne(memberId);
-    }
 
     public String getJoin(Model model) {
         model.addAttribute("page", "join");
         return "layout";
-    }
-
-    public String getJoinAdmin(Model model) {
-        model.addAttribute("page", "joinAdmin");
-        model.addAttribute("joinForm", new JoinForm());
-        return "layout";
-    }
-
-    public String postJoinAdmin(HttpServletRequest request, @Valid JoinForm joinForm) {
-        HttpSession session = request.getSession();
-        try {
-            Admin admin = new Admin();
-            admin.setId(joinForm.getId());
-            admin.setPassword(joinForm.getPassword());
-            admin.setName(joinForm.getName());
-            admin.setEmail(joinForm.getEmail());
-            admin.setTel(joinForm.getTel());
-            admin.setAddress(joinForm.getAddress());
-            admin.setAddressDetail(joinForm.getAddressDetail());
-            adminService.join(admin);
-            session.setAttribute("message", "회원가입 되셨습니다.");
-            return "redirect:/";
-        } catch (IllegalStateException e) {
-            session.setAttribute("message", "이미 존재하는 아이디 입니다.");
-            return "redirect:/join/admin";
-        }
     }
 
     public String getJoinManager(Model model) {
@@ -73,23 +34,26 @@ public class MemberService {
         return "layout";
     }
 
+    @Transactional
     public String postJoinManager(HttpServletRequest request, @Valid JoinForm joinForm) {
         HttpSession session = request.getSession();
-        try {
-            Manager manager = new Manager();
-            manager.setId(joinForm.getId());
-            manager.setPassword(joinForm.getPassword());
-            manager.setName(joinForm.getName());
-            manager.setEmail(joinForm.getEmail());
-            manager.setTel(joinForm.getTel());
-            manager.setAddress(joinForm.getAddress());
-            manager.setAddressDetail(joinForm.getAddressDetail());
-            managerService.join(manager);
-            session.setAttribute("message", "회원가입 되셨습니다.");
-            return "redirect:/";
-        } catch (IllegalStateException e) {
+
+        Manager manager = new Manager();
+        manager.setLoginId(joinForm.getId());
+        manager.setPassword(joinForm.getPassword());
+        manager.setName(joinForm.getName());
+        manager.setEmail(joinForm.getEmail());
+        manager.setTel(joinForm.getTel());
+        manager.setAddress(joinForm.getAddress());
+        manager.setAddressDetail(joinForm.getAddressDetail());
+
+        if (memberRepository.existsByLoginId(joinForm.getId())) {
             session.setAttribute("message", "이미 존재하는 아이디 입니다.");
             return "redirect:/join/manager";
+        } else {
+            memberRepository.save(manager);
+            session.setAttribute("message", "회원가입 되셨습니다.");
+            return "redirect:/";
         }
     }
 
@@ -98,24 +62,26 @@ public class MemberService {
         model.addAttribute("joinForm", new JoinForm());
         return "layout";
     }
-
+    @Transactional
     public String postJoinCustomer(HttpServletRequest request, @Valid JoinForm joinForm) {
         HttpSession session = request.getSession();
-        try {
-            Customer customer = new Customer();
-            customer.setId(joinForm.getId());
-            customer.setPassword(joinForm.getPassword());
-            customer.setName(joinForm.getName());
-            customer.setEmail(joinForm.getEmail());
-            customer.setTel(joinForm.getTel());
-            customer.setAddress(joinForm.getAddress());
-            customer.setAddressDetail(joinForm.getAddressDetail());
-            customerService.join(customer);
-            session.setAttribute("message", "회원가입 되셨습니다.");
-            return "redirect:/";
-        } catch (IllegalStateException e) {
+
+        Customer customer = new Customer();
+        customer.setLoginId(joinForm.getId());
+        customer.setPassword(joinForm.getPassword());
+        customer.setName(joinForm.getName());
+        customer.setEmail(joinForm.getEmail());
+        customer.setTel(joinForm.getTel());
+        customer.setAddress(joinForm.getAddress());
+        customer.setAddressDetail(joinForm.getAddressDetail());
+
+        if (memberRepository.existsByLoginId(joinForm.getId())) {
             session.setAttribute("message", "이미 존재하는 아이디 입니다.");
             return "redirect:/join/customer";
+        } else {
+            memberRepository.save(customer);
+            session.setAttribute("message", "회원가입 되셨습니다.");
+            return "redirect:/";
         }
     }
 
@@ -127,8 +93,9 @@ public class MemberService {
 
     public String postlogin(HttpServletRequest request, @Valid LoginForm loginForm) {
         HttpSession session = request.getSession();
+
         try {
-            Member member = findOne(loginForm.getId());
+            Member member = memberRepository.findOneByLoginId(loginForm.getId());
             if(member.getPassword().equals(loginForm.getPassword())) {
                 session.setAttribute("login", "logined");
                 session.setAttribute("member", member);
