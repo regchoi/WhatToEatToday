@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import team.project.WhatToEatToday.domain.member.Customer;
 import team.project.WhatToEatToday.domain.member.Manager;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.LoginForm;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -65,6 +67,14 @@ class MemberServiceTest {
 //            session.setAttribute("message", "비밀번호가 올바르지 않습니다.");
 //            return "redirect:/login";
 //        }
+    }
+
+    @Test
+    public void myPage() {
+        Customer customer = new Customer();
+        customer = (Customer) memberRepository.findById(7L).orElseThrow();
+        System.out.println(customer.getName());
+
     }
 
 

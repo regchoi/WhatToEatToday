@@ -4,21 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import team.project.WhatToEatToday.domain.Condition;
 import team.project.WhatToEatToday.domain.ConditionCategory;
 import team.project.WhatToEatToday.domain.EatingHouse;
 import team.project.WhatToEatToday.domain.Menu;
-import team.project.WhatToEatToday.domain.member.Admin;
 import team.project.WhatToEatToday.domain.member.Customer;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.JoinForm;
 import team.project.WhatToEatToday.dto.LongIdForm;
-import team.project.WhatToEatToday.repository.member.CustomerRepository;
+import team.project.WhatToEatToday.repository.member.MemberRepository;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -30,116 +27,80 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CustomerService {
-    private final EntityManager em;
-    private final CustomerRepository customerRepository;
     private final ConditionCategoryService conditionCategoryService;
     private final ConditionService conditionService;
+    private final MemberRepository memberRepository;
     private final MenuService menuService;
     private final EatingHouseService eatingHouseService;
 
-
-//    @Transactional
-//    public String join(Customer customer) {
-//        validateDuplicateCustomer(customer);
-//        customerRepository.save(customer);
-//        return customer.getId();
-//    }
-//
-//    @Transactional
-//    public String edit(Customer customer) {
-//        customerRepository.save(customer);
-//        return customer.getId();
-//    }
-
-//    private void validateDuplicateCustomer(Customer customer) {
-//        List<Customer> findCustomers = customerRepository.findById(customer.getId());
-//        if(!findCustomers.isEmpty()) {
-//            throw new IllegalStateException();
-//        }
-//    }
-
-    //회원 전체 조회
-    public List<Customer> findCustomers() {
-        return customerRepository.findAll();
-    }
-
-    public Customer findOne(String customerId) {
-        return customerRepository.findOne(customerId);
-    }
-
-    @Transactional
-//    public String delete(Customer customer) {
-//        String deletedCustomerId = customer.getId();
-//        customerRepository.delete(customer);
-//        return deletedCustomerId;
-//    }
-
-    public String getMypage(@PathVariable String customerId, Model model) {
-        model.addAttribute("customer", findOne(customerId));
+    public String getMypage(@PathVariable Long customerId, Model model) {
+        model.addAttribute("customer", memberRepository.findById(customerId).orElseThrow());
         model.addAttribute("page", "myPage");
         return "layout";
     }
 
-    public String getEditMypage(@PathVariable String customerId, Model model, JoinForm joinForm) {
-        model.addAttribute("customer", findOne(customerId));
+    public String getEditMypage(@PathVariable Long customerId, Model model, JoinForm joinForm) {
+        model.addAttribute("customer", memberRepository.findById(customerId).orElseThrow());
         model.addAttribute("JoinForm", joinForm);
         model.addAttribute("page", "editCustomerInfo");
         return "layout";
     }
 
     @Transactional
-//    public String postEditMypage(HttpServletRequest request , @PathVariable String customerId, @Valid JoinForm joinForm) {
-//        HttpSession session = request.getSession();
-//        Customer customer = findOne(customerId);
-//        customer.setName(joinForm.getName());
-//        customer.setPassword(joinForm.getPassword());
-//        customer.setEmail(joinForm.getEmail());
-//        customer.setTel(joinForm.getTel());
-//        customer.setAddress(joinForm.getAddress());
-//        customer.setAddressDetail(joinForm.getAddressDetail());
-//        edit(customer);
-//        session.setAttribute("message", "회원정보 변경");
-//        return "redirect:/customer/mypage/" + customerId;
-//    }
+    public String postEditMypage(HttpServletRequest request , @PathVariable Long customerId, @Valid JoinForm joinForm) {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) memberRepository.findById(customerId).orElseThrow();
+        customer.setName(joinForm.getName());
+        customer.setPassword(joinForm.getPassword());
+        customer.setEmail(joinForm.getEmail());
+        customer.setTel(joinForm.getTel());
+        customer.setAddress(joinForm.getAddress());
+        customer.setAddressDetail(joinForm.getAddressDetail());
+        memberRepository.save(customer);
+        session.setAttribute("message", "회원정보 변경");
+        return "redirect:/customer/mypage/" + customerId;
+    }
 
-//    public String deleteMypage(HttpServletRequest request , @PathVariable String customerId) {
-//        HttpSession session = request.getSession();
-//        Customer customer = findOne(customerId);
-//        delete(customer);
-//        session.setAttribute("message", "회원탈퇴");
-//        return "redirect:/logout";
-//    }
+    @Transactional
+    public String deleteMypage(HttpServletRequest request , @PathVariable Long customerId) {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) memberRepository.findById(customerId).orElseThrow();
+        memberRepository.delete(customer);
+        session.setAttribute("message", "회원탈퇴");
+        return "redirect:/logout";
+    }
 
-//    public String recommendMenu(HttpServletRequest request, Model model, LongIdForm longIdForm) {
-//        HttpSession session= request.getSession();
-//        try {
-//            Member member = (Member) session.getAttribute("member");
-//            member.getId().isBlank();
-//
-//            ConditionCategory concate1 = conditionCategoryService.findOne(1L);
-//            model.addAttribute("concate1", concate1);
-//            ConditionCategory concate2 = conditionCategoryService.findOne(2L);
-//            model.addAttribute("concate2", concate2);
-//            ConditionCategory concate3 = conditionCategoryService.findOne(3L);
-//            model.addAttribute("concate3", concate3);
-//
-//            List<Condition> conditionList1 = conditionService.findCate1(1L);
-//            model.addAttribute("condition1", conditionList1);
-//            List<Condition> conditionList2 = conditionService.findCate1(2L);
-//            model.addAttribute("condition2", conditionList2);
-//            List<Condition> conditionList3 = conditionService.findCate1(3L);
-//            model.addAttribute("condition3", conditionList3);
-//
-//            model.addAttribute("longIdForm", longIdForm);
-//            model.addAttribute("page", "menuRecommend");
-//
-//            return "layout";
-//        }
-//        catch (Exception e){
-//            session.setAttribute("message","로그인 이후에 이용 가능합니다");
-//            return "redirect:/";
-//        }
-//    }
+
+
+    public String recommendMenu(HttpServletRequest request, Model model, LongIdForm longIdForm) {
+        HttpSession session= request.getSession();
+        try {
+            Member member = (Member) session.getAttribute("member");
+
+            ConditionCategory concate1 = conditionCategoryService.findOne(1L);
+            model.addAttribute("concate1", concate1);
+            ConditionCategory concate2 = conditionCategoryService.findOne(2L);
+            model.addAttribute("concate2", concate2);
+            ConditionCategory concate3 = conditionCategoryService.findOne(3L);
+            model.addAttribute("concate3", concate3);
+
+            List<Condition> conditionList1 = conditionService.findCate1(1L);
+            model.addAttribute("condition1", conditionList1);
+            List<Condition> conditionList2 = conditionService.findCate1(2L);
+            model.addAttribute("condition2", conditionList2);
+            List<Condition> conditionList3 = conditionService.findCate1(3L);
+            model.addAttribute("condition3", conditionList3);
+
+            model.addAttribute("longIdForm", longIdForm);
+            model.addAttribute("page", "menuRecommend");
+
+            return "layout";
+        }
+        catch (Exception e){
+            session.setAttribute("message","로그인 이후에 이용 가능합니다");
+            return "redirect:/";
+        }
+    }
 
     public String recommendMenuResult(LongIdForm longIdForm, Model model, @RequestParam(name = "longId", required = false) List<Long> longid) {
 

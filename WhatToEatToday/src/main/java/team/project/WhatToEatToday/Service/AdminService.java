@@ -14,10 +14,8 @@ import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.EditConcateForm;
 import team.project.WhatToEatToday.dto.EditConditionForm;
 import team.project.WhatToEatToday.dto.JoinForm;
-import team.project.WhatToEatToday.repository.member.AdminRepository;
 import team.project.WhatToEatToday.repository.member.MemberRepository;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -33,15 +31,6 @@ public class AdminService {
     private final ConditionMenuService conditionMenuService;
     private final CrossMenuService crossMenuService;
     private final MenuService menuService;
-
-
-//
-//    private void validateDuplicateAdmin(Admin admin) {
-//        List<Admin> findAdmins = adminRepository.findById(admin.getId());
-//        if(!findAdmins.isEmpty()) {
-//            throw new IllegalStateException();
-//        }
-//    }
 
 
     public String getMembers(Model model) {

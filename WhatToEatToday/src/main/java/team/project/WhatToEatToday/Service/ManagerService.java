@@ -9,14 +9,11 @@ import team.project.WhatToEatToday.domain.Category;
 import team.project.WhatToEatToday.domain.CrossMenu;
 import team.project.WhatToEatToday.domain.EatingHouse;
 import team.project.WhatToEatToday.domain.Menu;
-import team.project.WhatToEatToday.domain.member.Customer;
 import team.project.WhatToEatToday.domain.member.Manager;
-import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.EatingHouseForm;
 import team.project.WhatToEatToday.dto.MenuForm;
 import team.project.WhatToEatToday.repository.member.ManagerRepository;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -47,14 +44,6 @@ public class ManagerService {
 //        }
 //    }
 
-    //회원 전체 조회
-    public List<Manager> findManagers() {
-        return managerRepository.findAll();
-    }
-
-    public Manager findOne(String managerId) {
-        return managerRepository.findOne(managerId);
-    }
 
 //    @Transactional
 //    public String delete(Manager manager) {

@@ -40,29 +40,29 @@ public class CustomerController {
 	private final CustomerService customerService;
 
 	@GetMapping("/mypage/{customerId}")
-    public String getMypage(@PathVariable String customerId, Model model) {
+    public String getMypage(@PathVariable Long customerId, Model model) {
         return customerService.getMypage(customerId, model);
     }
 
     @GetMapping("/mypage/edit/{customerId}")
-    public String getEditMypage(@PathVariable String customerId, Model model, JoinForm joinForm) {
+    public String getEditMypage(@PathVariable Long customerId, Model model, JoinForm joinForm) {
         return customerService.getEditMypage(customerId, model, joinForm);
     }
 
-//    @PostMapping("/mypage/edit/{customerId}")
-//    public String postEditMypage(HttpServletRequest request , @PathVariable String customerId, @Valid JoinForm joinForm) {
-//        return customerService.postEditMypage(request, customerId, joinForm);
-//    }
+    @PostMapping("/mypage/edit/{customerId}")
+    public String postEditMypage(HttpServletRequest request , @PathVariable Long customerId, @Valid JoinForm joinForm) {
+        return customerService.postEditMypage(request, customerId, joinForm);
+    }
 
-//    @GetMapping("/mypage/delete/{customerId}")
-//    public String deleteMypage(HttpServletRequest request , @PathVariable String customerId) {
-//        return customerService.deleteMypage(request, customerId);
-//    }
+    @GetMapping("/mypage/delete/{customerId}")
+    public String deleteMypage(HttpServletRequest request , @PathVariable Long customerId) {
+        return customerService.deleteMypage(request, customerId);
+    }
 
-//	@GetMapping("/recommend")
-//    public String recommendMenu(HttpServletRequest request, Model model, LongIdForm longIdForm) {
-//        return customerService.recommendMenu(request, model, longIdForm);
-//    }
+	@GetMapping("/recommend")
+    public String recommendMenu(HttpServletRequest request, Model model, LongIdForm longIdForm) {
+        return customerService.recommendMenu(request, model, longIdForm);
+    }
 
 	@GetMapping("/recommendResult")
     public String recommendMenuResult(LongIdForm longIdForm, Model model, @RequestParam(name = "longId", required = false) List<Long> longid) {
