@@ -3,23 +3,16 @@ package team.project.WhatToEatToday.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import team.project.WhatToEatToday.Service.*;
-import team.project.WhatToEatToday.domain.Category;
-import team.project.WhatToEatToday.domain.CrossMenu;
-import team.project.WhatToEatToday.domain.EatingHouse;
-import team.project.WhatToEatToday.domain.Menu;
-import team.project.WhatToEatToday.domain.member.Manager;
-import team.project.WhatToEatToday.domain.member.Member;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import team.project.WhatToEatToday.Service.ManagerService;
 import team.project.WhatToEatToday.dto.EatingHouseForm;
 import team.project.WhatToEatToday.dto.MenuForm;
-import team.project.WhatToEatToday.repository.CategoryRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/manager")
@@ -27,25 +20,21 @@ import java.util.List;
 public class ManagerController {
 
     private final ManagerService managerService;
-    private final EatingHouseService eatingHouseService;
-    private final MenuService menuService;
-    private final CategoryService categoryService;
-    private final CrossMenuService crossMenuService;
 
-//    @GetMapping("/eating_house")
-//    public String getManager(HttpServletRequest request, Model model) {
-//        return managerService.getManager(request, model);
-//    }
+    @GetMapping("/eating_house")
+    public String getManager(HttpServletRequest request, Model model) {
+        return managerService.getManager(request, model);
+    }
 
     @GetMapping("/eating_house/add")
     public String getAddEatingHouse(Model model) {
         return managerService.getAddEatingHouse(model);
     }
 
-//    @PostMapping("/eating_house/add")
-//    public String postAddEatingHouse(HttpServletRequest request, @Valid EatingHouseForm eatingHouseForm) {
-//        return managerService.postAddEatingHouse(request, eatingHouseForm);
-//    }
+    @PostMapping("/eating_house/add")
+    public String postAddEatingHouse(HttpServletRequest request, @Valid EatingHouseForm eatingHouseForm) {
+        return managerService.postAddEatingHouse(request, eatingHouseForm);
+    }
 
 
     @GetMapping("/eating_house/edit/{eatingHouseId}")

@@ -2,6 +2,7 @@ package team.project.WhatToEatToday.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import team.project.WhatToEatToday.domain.EatingHouse;
 import team.project.WhatToEatToday.domain.Menu;
 
@@ -13,12 +14,14 @@ import java.util.List;
 public class EatingHouseRepository {
     private final EntityManager em;
 
-    public void save(EatingHouse eatingHouse){
+    @Transactional
+    public String save(EatingHouse eatingHouse){
         if(eatingHouse.getId() == null) {
             em.persist(eatingHouse);
         } else {
             em.merge(eatingHouse);
         }
+        return "sadfkljsdlkafjlks;adfj";
     }
 
     public EatingHouse findOne(Long id) {

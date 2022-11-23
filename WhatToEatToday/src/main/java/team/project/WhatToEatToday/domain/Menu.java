@@ -35,7 +35,6 @@ public class Menu {
     public void setCategory(Category category) {
         this.categorys = category;
         category.getMenu().add(this);
-
     }
 
     public void setCrossMenu(CrossMenu crossMenu) {
@@ -43,21 +42,9 @@ public class Menu {
         crossMenu.getMenu().add(this);
     }
 
-
     public void setEatingHouse(EatingHouse eatingHouse) {
         this.eatingHouse = eatingHouse;
         eatingHouse.getMenus().add(this);
     }
-    
 
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", eatingHouse=" + eatingHouse +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", categorys=" + categorys +
-                '}';
-    }
 }

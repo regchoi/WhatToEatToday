@@ -9,7 +9,7 @@ import team.project.WhatToEatToday.domain.member.Manager;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.JoinForm;
 import team.project.WhatToEatToday.dto.LoginForm;
-import team.project.WhatToEatToday.repository.member.MemberRepository;
+import team.project.WhatToEatToday.repository.MemberRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

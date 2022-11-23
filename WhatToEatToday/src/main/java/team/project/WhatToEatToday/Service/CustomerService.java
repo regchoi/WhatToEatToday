@@ -14,7 +14,8 @@ import team.project.WhatToEatToday.domain.member.Customer;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.JoinForm;
 import team.project.WhatToEatToday.dto.LongIdForm;
-import team.project.WhatToEatToday.repository.member.MemberRepository;
+import team.project.WhatToEatToday.repository.MemberRepository;
+import team.project.WhatToEatToday.repository.MenuRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +31,7 @@ public class CustomerService {
     private final ConditionCategoryService conditionCategoryService;
     private final ConditionService conditionService;
     private final MemberRepository memberRepository;
-    private final MenuService menuService;
+    private final MenuRepository menuRepository;
     private final EatingHouseService eatingHouseService;
 
     public String getMypage(@PathVariable Long customerId, Model model) {
@@ -104,7 +105,7 @@ public class CustomerService {
 
     public String recommendMenuResult(LongIdForm longIdForm, Model model, @RequestParam(name = "longId", required = false) List<Long> longid) {
 
-        List<Menu> menuList = menuService.findAll();
+        List<Menu> menuList = menuRepository.findAll();
 
         HashMap<String, Object> menus = new HashMap<>();
         List<Long> menuId = new ArrayList<>();
@@ -148,7 +149,7 @@ public class CustomerService {
     }
 
     public String viewAll(Model model){
-        List<Menu> menu = menuService.findAll();
+        List<Menu> menu = menuRepository.findAll();
 
         List<EatingHouse> eatingHouses = new ArrayList<>();
         for(int i=0; i<menu.size(); i++){
@@ -178,7 +179,7 @@ public class CustomerService {
     }
 
     public String viewKfood(Model model) {
-        List<Menu> menu = menuService.findCategoryId(2L);
+        List<Menu> menu = menuRepository.findAllByCategoryId(2L);
 
         List<EatingHouse> eatingHouses = new ArrayList<>();
         for(int i=0; i<menu.size(); i++){
@@ -200,7 +201,7 @@ public class CustomerService {
     }
 
     public String viewJfood(Model model) {
-        List<Menu> menu = menuService.findCategoryId(3L);
+        List<Menu> menu = menuRepository.findAllByCategoryId(3L);
 
         List<EatingHouse> eatingHouses = new ArrayList<>();
         for(int i=0; i<menu.size(); i++){
@@ -221,7 +222,7 @@ public class CustomerService {
     }
 
     public String viewCfood(Model model) {
-        List<Menu> menu = menuService.findCategoryId(4L);
+        List<Menu> menu = menuRepository.findAllByCategoryId(4L);
 
         List<EatingHouse> eatingHouses = new ArrayList<>();
         for(int i=0; i<menu.size(); i++){
@@ -243,7 +244,7 @@ public class CustomerService {
     }
 
     public String viewWfood(Model model) {
-        List<Menu> menu = menuService.findCategoryId(5L);
+        List<Menu> menu = menuRepository.findAllByCategoryId(5L);
 
         List<EatingHouse> eatingHouses = new ArrayList<>();
         for(int i=0; i<menu.size(); i++){
@@ -265,7 +266,7 @@ public class CustomerService {
     }
 
     public String viewChicken(Model model) {
-        List<Menu> menu = menuService.findCategoryId(6L);
+        List<Menu> menu = menuRepository.findAllByCategoryId(6L);
 
         List<EatingHouse> eatingHouses = new ArrayList<>();
         for(int i=0; i<menu.size(); i++){
@@ -287,7 +288,7 @@ public class CustomerService {
     }
 
     public String viewBunsik(Model model) {
-        List<Menu> menu = menuService.findCategoryId(7L);
+        List<Menu> menu = menuRepository.findAllByCategoryId(7L);
 
         List<EatingHouse> eatingHouses = new ArrayList<>();
         for(int i=0; i<menu.size(); i++){
@@ -309,7 +310,7 @@ public class CustomerService {
     }
 
     public String viewDessert(Model model) {
-        List<Menu> menu = menuService.findCategoryId(8L);
+        List<Menu> menu = menuRepository.findAllByCategoryId(8L);
 
         List<EatingHouse> eatingHouses = new ArrayList<>();
         for(int i=0; i<menu.size(); i++){

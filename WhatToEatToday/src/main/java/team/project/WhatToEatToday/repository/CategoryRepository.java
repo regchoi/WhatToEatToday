@@ -1,13 +1,10 @@
 package team.project.WhatToEatToday.repository;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import team.project.WhatToEatToday.domain.Category;
-import team.project.WhatToEatToday.domain.Menu;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 

@@ -2,24 +2,17 @@ package team.project.WhatToEatToday.Service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import team.project.WhatToEatToday.domain.member.Customer;
+import team.project.WhatToEatToday.domain.EatingHouse;
 import team.project.WhatToEatToday.domain.member.Manager;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.LoginForm;
-import team.project.WhatToEatToday.repository.member.MemberRepository;
+import team.project.WhatToEatToday.repository.MemberRepository;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -27,6 +20,9 @@ import java.util.Optional;
 class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    EatingHouseService eatingHouseService;
 
     EntityManager em;
 
@@ -70,10 +66,17 @@ class MemberServiceTest {
     }
 
     @Test
-    public void myPage() {
-        Customer customer = new Customer();
-        customer = (Customer) memberRepository.findById(7L).orElseThrow();
-        System.out.println(customer.getName());
+    public void EatingHouse() {
+        EatingHouse eatingHouse = new EatingHouse();
+        eatingHouse.setName("mm");
+        Manager manager = new Manager();
+        manager.setId(1L);
+        manager.setLoginId("asdf");
+        memberRepository.save(manager);
+        manager.setName("asdf");
+        eatingHouse.setId(2L);
+        eatingHouse.setManager(manager);
+        eatingHouseService.join(eatingHouse);
 
     }
 

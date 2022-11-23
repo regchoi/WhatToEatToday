@@ -14,7 +14,8 @@ import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.EditConcateForm;
 import team.project.WhatToEatToday.dto.EditConditionForm;
 import team.project.WhatToEatToday.dto.JoinForm;
-import team.project.WhatToEatToday.repository.member.MemberRepository;
+import team.project.WhatToEatToday.repository.MemberRepository;
+import team.project.WhatToEatToday.repository.MenuRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +31,7 @@ public class AdminService {
     private final ConditionCategoryService conditionCategoryService;
     private final ConditionMenuService conditionMenuService;
     private final CrossMenuService crossMenuService;
-    private final MenuService menuService;
+    private final MenuRepository menuRepository;
 
 
     public String getMembers(Model model) {
@@ -208,11 +209,11 @@ public class AdminService {
             if(!(crossMenuService.findNewByName(editConditionForm.getAfter()).isEmpty())){
                 conditionMenu.setCrossMenu(crossMenuService.findByName(editConditionForm.getAfter()));
                 conditionMenuService.save(conditionMenu);
-                List<Menu> menuList = menuService.findByName(editConditionForm.getAfter());
+                List<Menu> menuList = menuRepository.findAllByName(editConditionForm.getAfter());
                 for(int i=0; i< menuList.size(); i++){
                     if(menuList.get(i).getCrossMenu().getId().equals(crossMenuService.findByName("기타").getId())){
                         menuList.get(i).setCrossMenu(crossMenuService.findByName(editConditionForm.getAfter()));
-                        menuService.join(menuList.get(i));
+                        menuRepository.save(menuList.get(i));
                     }
                 }
             } else{
@@ -222,11 +223,11 @@ public class AdminService {
                 conditionMenu.setCrossMenu(crossMenu);
                 conditionMenuService.save(conditionMenu);
 
-                List<Menu> menuList = menuService.findByName(editConditionForm.getAfter());
+                List<Menu> menuList = menuRepository.findAllByName(editConditionForm.getAfter());
                 for(int i=0; i< menuList.size(); i++){
                     if(menuList.get(i).getCrossMenu().getId().equals(crossMenuService.findByName("기타").getId())){
                         menuList.get(i).setCrossMenu(crossMenu);
-                        menuService.join(menuList.get(i));
+                        menuRepository.save(menuList.get(i));
                     }
                 }
             }
@@ -245,7 +246,7 @@ public class AdminService {
             ConditionCategory concate3 = conditionCategoryService.findOne(3L);
             model.addAttribute("concate3", concate3);
             model.addAttribute("page", "menuRecommendAdmin");
-            List<Menu> menu = menuService.findByName(editConditionForm.getBefore());
+            List<Menu> menu = menuRepository.findAllByName(editConditionForm.getBefore());
             return "redirect:/admin/admin_recommend/editCondition/{conditionId}";
         } else{
             List<Condition> conditionList1 = conditionService.findCate1(1L);
@@ -262,7 +263,7 @@ public class AdminService {
             ConditionCategory concate3 = conditionCategoryService.findOne(3L);
             model.addAttribute("concate3", concate3);
             model.addAttribute("page", "menuRecommendAdmin");
-            List<Menu> menu = menuService.findByName(editConditionForm.getBefore());
+            List<Menu> menu = menuRepository.findAllByName(editConditionForm.getBefore());
             return "redirect:/admin/admin_recommend/editCondition/{conditionId}";
         }
     }
@@ -309,11 +310,11 @@ public class AdminService {
                 crossMenuService.save(crossMenu);
                 conditionMenuService.save(conditionMenu);
 
-                List<Menu> menuList = menuService.findByName(editConditionForm.getAfter());
+                List<Menu> menuList = menuRepository.findAllByName(editConditionForm.getAfter());
                 for(int i=0; i< menuList.size(); i++){
                     if(menuList.get(i).getCrossMenu().getId().equals(crossMenuService.findByName("기타").getId())){
                         menuList.get(i).setCrossMenu(crossMenu);
-                        menuService.join(menuList.get(i));
+                        menuRepository.save(menuList.get(i));
                     }
                 }
 

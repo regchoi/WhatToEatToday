@@ -10,9 +10,12 @@ import team.project.WhatToEatToday.domain.CrossMenu;
 import team.project.WhatToEatToday.domain.EatingHouse;
 import team.project.WhatToEatToday.domain.Menu;
 import team.project.WhatToEatToday.domain.member.Manager;
+import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.EatingHouseForm;
 import team.project.WhatToEatToday.dto.MenuForm;
-import team.project.WhatToEatToday.repository.member.ManagerRepository;
+import team.project.WhatToEatToday.repository.EatingHouseRepository;
+import team.project.WhatToEatToday.repository.MemberRepository;
+import team.project.WhatToEatToday.repository.MenuRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,48 +26,26 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ManagerService {
-    private final ManagerRepository managerRepository;
+    private final MemberRepository memberRepository;
+    private final EatingHouseRepository eatingHouseRepository;
     private final EatingHouseService eatingHouseService;
     private final CategoryService categoryService;
-    private final MenuService menuService;
+    private final MenuRepository menuRepository;
     private final CrossMenuService crossMenuService;
 
-
-//    @Transactional
-//    public String join(Manager manager) {
-//        validateDuplicateAdmin(manager);
-//        managerRepository.save(manager);
-//        return manager.getId();
-//    }
-//
-//    private void validateDuplicateAdmin(Manager manager) {
-//        List<Manager> findAdmins = managerRepository.findById(manager.getId());
-//        if(!findAdmins.isEmpty()) {
-//            throw new IllegalStateException();
-//        }
-//    }
-
-
-//    @Transactional
-//    public String delete(Manager manager) {
-//        String deletedManagerId = manager.getId();
-//        managerRepository.delete(manager);
-//        return deletedManagerId;
-//    }
-//
-//    public String getManager(HttpServletRequest request, Model model) {
-//        HttpSession session = request.getSession();
-//        try {
-//            Member member = (Member) session.getAttribute("member");
-//            Manager manager = managerRepository.findOne(member.getId());
-//            model.addAttribute("page", "manager");
-//            model.addAttribute("eatingHouses", manager.getEatingHouses());
-//            return "layout";
-//        } catch (Exception e){
-//            session.setAttribute("message", "유저 정보가 올바르지 않습니다.");
-//            return "redirect:/logout";
-//        }
-//    }
+    public String getManager(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        try {
+            Member member = (Member) session.getAttribute("member");
+            Manager manager = (Manager) memberRepository.findById(member.getId()).orElseThrow();
+            model.addAttribute("page", "manager");
+            model.addAttribute("eatingHouses", manager.getEatingHouses());
+            return "layout";
+        } catch (Exception e){
+            session.setAttribute("message", "유저 정보가 올바르지 않습니다.");
+            return "redirect:/logout";
+        }
+    }
 
     public String getAddEatingHouse(Model model) {
         model.addAttribute("page", "addEatingHouse");
@@ -72,25 +53,25 @@ public class ManagerService {
         return "layout";
     }
 
-//    public String postAddEatingHouse(HttpServletRequest request, @Valid EatingHouseForm eatingHouseForm) {
-//        HttpSession session = request.getSession();
-//        try {
-//            EatingHouse eatingHouse = new EatingHouse();
-//            eatingHouse.setName(eatingHouseForm.getName());
-//            eatingHouse.setDescription(eatingHouseForm.getDescription());
-//            Member member = (Member) session.getAttribute("member");
-//            Manager manager = findOne(member.getId());
-//            eatingHouse.setManager(manager);
-//            eatingHouse.setAddress(eatingHouseForm.getAddress());
-//            eatingHouse.setAddressDetail(eatingHouseForm.getAddressDetail());
-//            eatingHouseService.join(eatingHouse);
-//            session.setAttribute("message", "매장 등록 성공");
-//            return "redirect:/manager/eating_house";
-//        } catch (Exception e) {
-//            session.setAttribute("message", "매장 등록 실패");
-//            return "redirect:/manager/eating_house/add";
-//        }
-//    }
+    public String postAddEatingHouse(HttpServletRequest request, @Valid EatingHouseForm eatingHouseForm) {
+        HttpSession session = request.getSession();
+        try {
+            EatingHouse eatingHouse = new EatingHouse();
+            eatingHouse.setName(eatingHouseForm.getName());
+            eatingHouse.setDescription(eatingHouseForm.getDescription());
+            Member member = (Member) session.getAttribute("member");
+            Manager manager = (Manager) memberRepository.findById(member.getId()).orElseThrow();
+            eatingHouse.setManager(manager);
+            eatingHouse.setAddress(eatingHouseForm.getAddress());
+            eatingHouse.setAddressDetail(eatingHouseForm.getAddressDetail());
+            eatingHouseRepository.save(eatingHouse);
+            session.setAttribute("message", "매장 등록 성공");
+            return "redirect:/manager/eating_house";
+        } catch (Exception e) {
+            session.setAttribute("message", "매장 등록 실패");
+            return "redirect:/manager/eating_house/add";
+        }
+    }
 
     public String getEatingHouseEdit(@PathVariable Long eatingHouseId, Model model, EatingHouseForm eatingHouseForm) {
         model.addAttribute("page", "editEatingHouse");
@@ -135,47 +116,26 @@ public class ManagerService {
             menu.setPrice(menuForm.getPrice());
             menu.setCategorys(categoryService.findOne(menuForm.getCategory()));
             menu.setEatingHouse(eatingHouseService.findOne(eatingHouseId));
-            menuService.join(menu);
+            menuRepository.save(menu);
 
             List<CrossMenu> checkCrossMenu = crossMenuService.findAll();
             for(int i=0; i<checkCrossMenu.size(); i++){
                 String checkMenu = checkCrossMenu.get(i).getName();
-                int j = menuService.findByName(checkMenu).size();
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");//
-                System.out.println(checkCrossMenu.get(i).getName());
-                System.out.println(j);
-                System.out.println(checkCrossMenu.size());
-                System.out.println(menuService.findByName(checkMenu));
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                int j = menuRepository.findAllByName(checkMenu).size();
                 if(!(j==0)){
-                    if(menu.getId().equals(menuService.findByName(checkMenu).get(j-1).getId())){
+                    if(menu.getId().equals(menuRepository.findAllByName(checkMenu).get(j-1).getId())){
                         checkId = checkCrossMenu.get(i).getId();
                         break;
                     }
                 }
-
             }
-
-            System.out.println("========================================");
-            System.out.println(menu.getId());
-            System.out.println(checkId);
-            System.out.println(checkId.toString().isEmpty());
-            System.out.println(checkId.toString().isBlank());
-            System.out.println("========================================");
 
             if(!(checkId==123456789L)){
                 menu.setCrossMenu(crossMenuService.findOne(checkId));
-                System.out.println("========================================");
-                System.out.println(menu.getCrossMenu());
-                System.out.println("========================================");
-                menuService.join(menu);
-            }else if(checkId==123456789L){
+                menuRepository.save(menu);
+            } else if(checkId==123456789L) {
                 menu.setCrossMenu(crossMenuService.findByName("기타"));
-//                CrossMenu crossMenu = new CrossMenu();
-//                crossMenu.setName(menuForm.getName());
-//                menu.setCrossMenu(crossMenu);
-//                crossMenuService.save(crossMenu);
-                menuService.join(menu);
+                menuRepository.save(menu);
             }
             session.setAttribute("message", "메뉴추가");
             return "redirect:/manager/eating_house/edit/" + eatingHouseId;
@@ -193,10 +153,10 @@ public class ManagerService {
         model.addAttribute("menuForm", menuForm);
         List<Category> categoryList = categoryService.findCategoryExOne();
         model.addAttribute("cate", categoryList);
-        Menu menu = menuService.findOne(menuId);
+        Menu menu = menuRepository.findById(menuId).orElseThrow();
         Category category = categoryService.findOne(menu.getCategorys().getId());
         model.addAttribute("cateid", category.getId());
-        model.addAttribute("menu", menuService.findOne(menuId));
+        model.addAttribute("menu", menuRepository.findById(menuId).orElseThrow());
         model.addAttribute("eatingHouse", eatingHouseService.findOne(eatingHouseId));
         return "layout";
     }
@@ -205,19 +165,19 @@ public class ManagerService {
                                @PathVariable Long menuId, @Valid MenuForm menuForm) {
         HttpSession session = request.getSession();
         session.setAttribute("message", "메뉴수정");
-        Menu menu = menuService.findOne(menuId);
+        Menu menu = menuRepository.findById(menuId).orElseThrow();
         menu.setName(menuForm.getName());
         menu.setPrice(menuForm.getPrice());
         menu.setCategorys(categoryService.findOne(menuForm.getCategory()));
-        menuService.join(menu);
+        menuRepository.save(menu);
 
         Long checkId = 123456789L;
         List<CrossMenu> checkCrossMenu = crossMenuService.findAll();
         for (int i = 0; i < checkCrossMenu.size(); i++) {
             String checkMenu = checkCrossMenu.get(i).getName();
-            int j = menuService.findByName(checkMenu).size();
+            int j = menuRepository.findAllByName(checkMenu).size();
             if (!(j == 0)) {
-                if (menu.getId().equals(menuService.findByName(checkMenu).get(j - 1).getId())) {
+                if (menu.getId().equals(menuRepository.findAllByName(checkMenu).get(j - 1).getId())) {
                     checkId = checkCrossMenu.get(i).getId();
                     break;
                 }
@@ -225,10 +185,10 @@ public class ManagerService {
         }
         if (!(checkId == 123456789L)) {
             menu.setCrossMenu(crossMenuService.findOne(checkId));
-            menuService.join(menu);
+            menuRepository.save(menu);
         } else if(checkId == 123456789L) {
             menu.setCrossMenu(crossMenuService.findByName("기타"));
-            menuService.join(menu);
+            menuRepository.save(menu);
         }
 
         return "redirect:/manager/eating_house/edit/" + eatingHouseId;
@@ -240,8 +200,8 @@ public class ManagerService {
             @PathVariable Long menuId){
         HttpSession session = request.getSession();
         session.setAttribute("message", "메뉴삭제");
-        Menu menu = menuService.findOne(menuId);
-        menuService.delete(menu);
+        Menu menu = menuRepository.findById(menuId).orElseThrow();
+        menuRepository.delete(menu);
         return "redirect:/manager/eating_house/edit/" + eatingHouseId;
     }
 }

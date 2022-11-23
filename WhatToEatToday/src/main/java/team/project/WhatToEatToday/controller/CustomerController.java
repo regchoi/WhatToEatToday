@@ -1,37 +1,16 @@
 package team.project.WhatToEatToday.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-import team.project.WhatToEatToday.Service.CategoryService;
-import team.project.WhatToEatToday.Service.ConditionCategoryService;
-import team.project.WhatToEatToday.Service.ConditionMenuService;
-import team.project.WhatToEatToday.Service.ConditionService;
 import team.project.WhatToEatToday.Service.CustomerService;
-import team.project.WhatToEatToday.Service.EatingHouseService;
-import team.project.WhatToEatToday.Service.MenuService;
-import team.project.WhatToEatToday.domain.Category;
-import team.project.WhatToEatToday.domain.Condition;
-import team.project.WhatToEatToday.domain.ConditionCategory;
-import team.project.WhatToEatToday.domain.ConditionMenu;
-import team.project.WhatToEatToday.domain.EatingHouse;
-import team.project.WhatToEatToday.domain.Menu;
-import team.project.WhatToEatToday.domain.member.Customer;
-import team.project.WhatToEatToday.domain.member.Manager;
-import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.JoinForm;
 import team.project.WhatToEatToday.dto.LongIdForm;
-import team.project.WhatToEatToday.dto.MenuForm;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.net.http.HttpRequest;
-import java.util.*;
+import java.util.List;
 
 @Controller
 @RequestMapping("/customer")
