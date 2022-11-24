@@ -14,6 +14,8 @@ import team.project.WhatToEatToday.domain.member.Customer;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.JoinForm;
 import team.project.WhatToEatToday.dto.LongIdForm;
+import team.project.WhatToEatToday.repository.ConditionCategoryRepository;
+import team.project.WhatToEatToday.repository.ConditionRepository;
 import team.project.WhatToEatToday.repository.MemberRepository;
 import team.project.WhatToEatToday.repository.MenuRepository;
 
@@ -28,8 +30,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CustomerService {
-    private final ConditionCategoryService conditionCategoryService;
-    private final ConditionService conditionService;
+    private final ConditionCategoryRepository conditionCategoryRepository;
+    private final ConditionRepository conditionRepository;
     private final MemberRepository memberRepository;
     private final MenuRepository menuRepository;
     private final EatingHouseService eatingHouseService;
@@ -78,18 +80,18 @@ public class CustomerService {
         try {
             Member member = (Member) session.getAttribute("member");
 
-            ConditionCategory concate1 = conditionCategoryService.findOne(1L);
+            ConditionCategory concate1 = conditionCategoryRepository.findById(1L).orElseThrow();
             model.addAttribute("concate1", concate1);
-            ConditionCategory concate2 = conditionCategoryService.findOne(2L);
+            ConditionCategory concate2 = conditionCategoryRepository.findById(2L).orElseThrow();
             model.addAttribute("concate2", concate2);
-            ConditionCategory concate3 = conditionCategoryService.findOne(3L);
+            ConditionCategory concate3 = conditionCategoryRepository.findById(3L).orElseThrow();
             model.addAttribute("concate3", concate3);
 
-            List<Condition> conditionList1 = conditionService.findCate1(1L);
+            List<Condition> conditionList1 = conditionRepository.findAllByConditionCategoryId(1L);
             model.addAttribute("condition1", conditionList1);
-            List<Condition> conditionList2 = conditionService.findCate1(2L);
+            List<Condition> conditionList2 = conditionRepository.findAllByConditionCategoryId(2L);
             model.addAttribute("condition2", conditionList2);
-            List<Condition> conditionList3 = conditionService.findCate1(3L);
+            List<Condition> conditionList3 = conditionRepository.findAllByConditionCategoryId(3L);
             model.addAttribute("condition3", conditionList3);
 
             model.addAttribute("longIdForm", longIdForm);
@@ -132,16 +134,16 @@ public class CustomerService {
         return "layout";
     }
 
-    public String searchEatingHouse(@PathVariable Long eatingHouseId, Model model) {
-
-
-        EatingHouse eatingHouses = eatingHouseService.findOne(eatingHouseId);
-
-        model.addAttribute("page", "viewKfood");
-        model.addAttribute("eatingHouse", eatingHouses);
-
-        return "layout";
-    }
+//    public String searchEatingHouse(@PathVariable Long eatingHouseId, Model model) {
+//
+//
+//        EatingHouse eatingHouses = eatingHouseService.findOne(eatingHouseId);
+//
+//        model.addAttribute("page", "viewKfood");
+//        model.addAttribute("eatingHouse", eatingHouses);
+//
+//        return "layout";
+//    }
 
     public String viewMenuAll(Model model) {
         model.addAttribute("page", "viewAll");
@@ -170,13 +172,13 @@ public class CustomerService {
         return "layout";
     }
 
-    public String viewMenu(@PathVariable Long eatingHouseId,  Model model) {
-        EatingHouse eatingHouses = eatingHouseService.findOne(eatingHouseId);
-
-        model.addAttribute("eatingHouse", eatingHouses);
-        model.addAttribute("page", "menuList");
-        return "layout";
-    }
+//    public String viewMenu(@PathVariable Long eatingHouseId,  Model model) {
+//        EatingHouse eatingHouses = eatingHouseService.findOne(eatingHouseId);
+//
+//        model.addAttribute("eatingHouse", eatingHouses);
+//        model.addAttribute("page", "menuList");
+//        return "layout";
+//    }
 
     public String viewKfood(Model model) {
         List<Menu> menu = menuRepository.findAllByCategoryId(2L);

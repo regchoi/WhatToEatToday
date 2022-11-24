@@ -24,28 +24,6 @@ public class EatingHouseService {
     private final EatingHouseRepository eatingHouseRepository;
     private final MenuRepository menuRepository;
 
-    @Transactional
-    public String join(EatingHouse eatingHouse) {
-        eatingHouseRepository.save(eatingHouse);
-        return "kksjadl;kdsjfl;kdjaskl;fjdask;lkfjdklas;jfkl;asdjfl;kfdasj";
-    }
-
-    @Transactional
-    public Long delete(EatingHouse eatingHouse) {
-        Long deletedId = eatingHouse.getId();
-        eatingHouseRepository.delete(eatingHouse);
-        return deletedId;
-    }
-
-    //회원 전체 조회
-    public List<EatingHouse> findEatingHouses() {
-        return eatingHouseRepository.findAll();
-    }
-
-    public EatingHouse findOne(Long eatingHouseId) {
-        return eatingHouseRepository.findOne(eatingHouseId);
-    }
-
     public String home(Model model) {
         log.info("home controller");
         model.addAttribute("page", "home");

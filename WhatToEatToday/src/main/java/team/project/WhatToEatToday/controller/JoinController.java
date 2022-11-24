@@ -7,16 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import team.project.WhatToEatToday.Service.AdminService;
-import team.project.WhatToEatToday.Service.CustomerService;
-import team.project.WhatToEatToday.Service.ManagerService;
 import team.project.WhatToEatToday.Service.MemberService;
-import team.project.WhatToEatToday.domain.member.Admin;
-import team.project.WhatToEatToday.domain.member.Customer;
-import team.project.WhatToEatToday.domain.member.Manager;
 import team.project.WhatToEatToday.dto.JoinForm;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -25,8 +19,7 @@ import javax.validation.Valid;
 public class JoinController {
 
     private final AdminService adminService;
-    private final ManagerService managerService;
-    private final CustomerService customerService;
+
 
     private final MemberService memberService;
 

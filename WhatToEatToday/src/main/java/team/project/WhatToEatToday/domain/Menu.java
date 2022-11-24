@@ -22,7 +22,6 @@ public class Menu {
 
     private String name;
     private int price;
-
    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

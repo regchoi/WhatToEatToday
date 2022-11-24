@@ -11,11 +11,9 @@ import team.project.WhatToEatToday.domain.member.Admin;
 import team.project.WhatToEatToday.domain.member.Customer;
 import team.project.WhatToEatToday.domain.member.Manager;
 import team.project.WhatToEatToday.domain.member.Member;
-import team.project.WhatToEatToday.dto.EditConcateForm;
-import team.project.WhatToEatToday.dto.EditConditionForm;
+import team.project.WhatToEatToday.dto.EditForm;
 import team.project.WhatToEatToday.dto.JoinForm;
-import team.project.WhatToEatToday.repository.MemberRepository;
-import team.project.WhatToEatToday.repository.MenuRepository;
+import team.project.WhatToEatToday.repository.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,10 +25,10 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class AdminService {
     private final MemberRepository memberRepository;
-    private final ConditionService conditionService;
-    private final ConditionCategoryService conditionCategoryService;
-    private final ConditionMenuService conditionMenuService;
-    private final CrossMenuService crossMenuService;
+    private final ConditionRepository conditionRepository;
+    private final ConditionCategoryRepository conditionCategoryRepository;
+    private final ConditionMenuRepository conditionMenuRepository;
+    private final CrossMenuRepository crossMenuRepository;
     private final MenuRepository menuRepository;
 
 
@@ -97,87 +95,84 @@ public class AdminService {
     }
 
     public String recommendMenu(Model model) {
-//        HttpSession session = request.getSession();
-//        Member member = (Member) session.getAttribute("member");
-//        member.getId().isBlank();
 
-        List<Condition> conditionList1 = conditionService.findCate1(1L);
+        List<Condition> conditionList1 = conditionRepository.findAllByConditionCategoryId(1L);
         model.addAttribute("condition1", conditionList1);
-        List<Condition> conditionList2 = conditionService.findCate1(2L);
+        List<Condition> conditionList2 = conditionRepository.findAllByConditionCategoryId(2L);
         model.addAttribute("condition2", conditionList2);
-        List<Condition> conditionList3 = conditionService.findCate1(3L);
+        List<Condition> conditionList3 = conditionRepository.findAllByConditionCategoryId(3L);
         model.addAttribute("condition3", conditionList3);
 
-        ConditionCategory concate1 = conditionCategoryService.findOne(1L);
+        ConditionCategory concate1 = conditionCategoryRepository.findById(1L).orElseThrow();
         model.addAttribute("concate1", concate1);
-        ConditionCategory concate2 = conditionCategoryService.findOne(2L);
+        ConditionCategory concate2 = conditionCategoryRepository.findById(2L).orElseThrow();
         model.addAttribute("concate2", concate2);
-        ConditionCategory concate3 = conditionCategoryService.findOne(3L);
+        ConditionCategory concate3 = conditionCategoryRepository.findById(3L).orElseThrow();
         model.addAttribute("concate3", concate3);
 
         model.addAttribute("page", "menuRecommendAdmin");
         return "layout";
     }
 
-    public String editConcate(EditConcateForm editConcateForm, Model model, @PathVariable(name = "ConcateNumber") long concateNumber) {
-        String conditionCategory = conditionCategoryService.findOne(concateNumber).getName();
+    public String editConcate(EditForm editForm, Model model, @PathVariable(name = "ConcateNumber") long concateNumber) {
+        String conditionCategory = conditionCategoryRepository.findById(concateNumber).orElseThrow().getName();
         Long number = concateNumber;
         model.addAttribute("number", number);
         model.addAttribute("page", "editConcate");
         model.addAttribute("condition", conditionCategory);
-        model.addAttribute("form", editConcateForm);
+        model.addAttribute("form", editForm);
         return "layout";
     }
 
-    public String editConcates(EditConcateForm editConcateForm, Model model, @PathVariable(name = "ConcateNumber") long concateNumber) {
-        ConditionCategory conditionCategory = conditionCategoryService.findOne(concateNumber);
-        conditionCategory.setName(editConcateForm.getAfter());
-        conditionCategoryService.save(conditionCategory);
-        ConditionCategory concate1 = conditionCategoryService.findOne(1L);
+    public String editConcates(EditForm editForm, Model model, @PathVariable(name = "ConcateNumber") long concateNumber) {
+        ConditionCategory conditionCategory = conditionCategoryRepository.findById(concateNumber).orElseThrow();
+        conditionCategory.setName(editForm.getAfter());
+        conditionCategoryRepository.save(conditionCategory);
+        ConditionCategory concate1 = conditionCategoryRepository.findById(1L).orElseThrow();
         model.addAttribute("concate1", concate1);
-        ConditionCategory concate2 = conditionCategoryService.findOne(2L);
+        ConditionCategory concate2 = conditionCategoryRepository.findById(2L).orElseThrow();
         model.addAttribute("concate2", concate2);
-        ConditionCategory concate3 = conditionCategoryService.findOne(3L);
+        ConditionCategory concate3 = conditionCategoryRepository.findById(3L).orElseThrow();
         model.addAttribute("concate3", concate3);
 
-        List<Condition> conditionList1 = conditionService.findCate1(1L);
+        List<Condition> conditionList1 = conditionRepository.findAllByConditionCategoryId(1L);
         model.addAttribute("condition1", conditionList1);
-        List<Condition> conditionList2 = conditionService.findCate1(2L);
+        List<Condition> conditionList2 = conditionRepository.findAllByConditionCategoryId(2L);
         model.addAttribute("condition2", conditionList2);
-        List<Condition> conditionList3 = conditionService.findCate1(3L);
+        List<Condition> conditionList3 = conditionRepository.findAllByConditionCategoryId(3L);
         model.addAttribute("condition3", conditionList3);
 
         model.addAttribute("page", "menuRecommendAdmin");
         return "layout";
     }
 
-    public String editCondition(EditConditionForm editConditionForm, Model model, @PathVariable Long conditionId) {
-        Condition condition = conditionService.findOne(conditionId);
-        List<ConditionMenu> conditionMenu = conditionMenuService.findByConditionId(conditionId);
+    public String editCondition(EditForm editForm, Model model, @PathVariable Long conditionId) {
+        Condition condition = conditionRepository.findById(conditionId).orElseThrow();
+        List<ConditionMenu> conditionMenu = conditionMenuRepository.findAllByConditionId(conditionId);
         model.addAttribute("page", "editCondition");
         model.addAttribute("condition_menu", conditionMenu);
         model.addAttribute("condition", condition);
-        model.addAttribute("form", editConditionForm);
+        model.addAttribute("form", editForm);
         return "layout";
     }
 
-    public String editConditions(EditConcateForm editConditonForm, Model model, @PathVariable Long conditionId) {
-        Condition condition = conditionService.findOne(conditionId);
-        condition.setName(editConditonForm.getAfter());
-        conditionService.join(condition);
-        List<Condition> conditionList1 = conditionService.findCate1(1L);
+    public String editConditions(EditForm editForm, Model model, @PathVariable Long conditionId) {
+        Condition condition = conditionRepository.findById(conditionId).orElseThrow();
+        condition.setName(editForm.getAfter());
+        conditionRepository.save(condition);
+        List<Condition> conditionList1 = conditionRepository.findAllByConditionCategoryId(1L);
         model.addAttribute("condition1", conditionList1);
-        List<Condition> conditionList2 = conditionService.findCate1(2L);
+        List<Condition> conditionList2 = conditionRepository.findAllByConditionCategoryId(2L);
         model.addAttribute("condition2", conditionList2);
-        List<Condition> conditionList3 = conditionService.findCate1(3L);
+        List<Condition> conditionList3 = conditionRepository.findAllByConditionCategoryId(3L);
         model.addAttribute("condition3", conditionList3);
 
 
-        ConditionCategory concate1 = conditionCategoryService.findOne(1L);
+        ConditionCategory concate1 = conditionCategoryRepository.findById(1L).orElseThrow();
         model.addAttribute("concate1", concate1);
-        ConditionCategory concate2 = conditionCategoryService.findOne(2L);
+        ConditionCategory concate2 = conditionCategoryRepository.findById(2L).orElseThrow();
         model.addAttribute("concate2", concate2);
-        ConditionCategory concate3 = conditionCategoryService.findOne(3L);
+        ConditionCategory concate3 = conditionCategoryRepository.findById(3L).orElseThrow();
         model.addAttribute("concate3", concate3);
 
 
@@ -185,85 +180,86 @@ public class AdminService {
         return "layout";
     }
 
-    public String editConditionMenu(EditConditionForm editConditionForm, Model model,
+    public String editConditionMenu(EditForm editForm, Model model,
                                     @PathVariable Long conditionId,
                                     @PathVariable Long conditionMenuId) {
 
-        ConditionMenu conditionMenu = conditionMenuService.findOne(conditionMenuId);
+        ConditionMenu conditionMenu = conditionMenuRepository.findById(conditionMenuId).orElseThrow();
         model.addAttribute("conditionId", conditionId);
         model.addAttribute("conditionMenuId", conditionMenuId);
         model.addAttribute("page", "editConditionMenu");
         model.addAttribute("condition", conditionMenu.getName());
-        model.addAttribute("form", editConditionForm);
+        model.addAttribute("form", editForm);
         return "layout";
     }
 
-    public String editConditionMenus(EditConditionForm editConditionForm, Model model,
+    @Transactional
+    public String editConditionMenus(EditForm editForm, Model model,
                                      @PathVariable Long conditionId,
                                      @PathVariable Long conditionMenuId) {
-        if(!(editConditionForm.getAfter().isBlank())){
-            ConditionMenu conditionMenu = conditionMenuService.findOne(conditionMenuId);
-            conditionMenu.setName(editConditionForm.getAfter());
-            conditionMenuService.save(conditionMenu);
+        if(!(editForm.getAfter().isBlank())){
+            ConditionMenu conditionMenu = conditionMenuRepository.findById(conditionMenuId).orElseThrow();
+            conditionMenu.setName(editForm.getAfter());
+            conditionMenuRepository.save(conditionMenu);
 
-            if(!(crossMenuService.findNewByName(editConditionForm.getAfter()).isEmpty())){
-                conditionMenu.setCrossMenu(crossMenuService.findByName(editConditionForm.getAfter()));
-                conditionMenuService.save(conditionMenu);
-                List<Menu> menuList = menuRepository.findAllByName(editConditionForm.getAfter());
+            if(!(crossMenuRepository.findAllByName(editForm.getAfter()).isEmpty())){
+                conditionMenu.setCrossMenu(crossMenuRepository.findByName(editForm.getAfter()));
+                conditionMenuRepository.save(conditionMenu);
+                List<Menu> menuList = menuRepository.findAllByName(editForm.getAfter());
                 for(int i=0; i< menuList.size(); i++){
-                    if(menuList.get(i).getCrossMenu().getId().equals(crossMenuService.findByName("기타").getId())){
-                        menuList.get(i).setCrossMenu(crossMenuService.findByName(editConditionForm.getAfter()));
+                    if(menuList.get(i).getCrossMenu().getId().equals(crossMenuRepository.findByName("기타").getId())){
+                        menuList.get(i).setCrossMenu(crossMenuRepository.findByName(editForm.getAfter()));
                         menuRepository.save(menuList.get(i));
                     }
                 }
             } else{
                 CrossMenu crossMenu = new CrossMenu();
-                crossMenu.setName(editConditionForm.getAfter());
-                crossMenuService.save(crossMenu);
+                crossMenu.setName(editForm.getAfter());
+                crossMenuRepository.save(crossMenu);
                 conditionMenu.setCrossMenu(crossMenu);
-                conditionMenuService.save(conditionMenu);
+                conditionMenuRepository.save(conditionMenu);
 
-                List<Menu> menuList = menuRepository.findAllByName(editConditionForm.getAfter());
+                List<Menu> menuList = menuRepository.findAllByName(editForm.getAfter());
                 for(int i=0; i< menuList.size(); i++){
-                    if(menuList.get(i).getCrossMenu().getId().equals(crossMenuService.findByName("기타").getId())){
+                    if(menuList.get(i).getCrossMenu().getId().equals(crossMenuRepository.findByName("기타").getId())){
                         menuList.get(i).setCrossMenu(crossMenu);
                         menuRepository.save(menuList.get(i));
                     }
                 }
             }
 
-            List<Condition> conditionList1 = conditionService.findCate1(1L);
+            List<Condition> conditionList1 = conditionRepository.findAllByConditionCategoryId(1L);
             model.addAttribute("condition1", conditionList1);
-            List<Condition> conditionList2 = conditionService.findCate1(2L);
+            List<Condition> conditionList2 = conditionRepository.findAllByConditionCategoryId(2L);
             model.addAttribute("condition2", conditionList2);
-            List<Condition> conditionList3 = conditionService.findCate1(3L);
+            List<Condition> conditionList3 = conditionRepository.findAllByConditionCategoryId(3L);
             model.addAttribute("condition3", conditionList3);
 
-            ConditionCategory concate1 = conditionCategoryService.findOne(1L);
+            ConditionCategory concate1 = conditionCategoryRepository.findById(1L).orElseThrow();
             model.addAttribute("concate1", concate1);
-            ConditionCategory concate2 = conditionCategoryService.findOne(2L);
+            ConditionCategory concate2 = conditionCategoryRepository.findById(2L).orElseThrow();
             model.addAttribute("concate2", concate2);
-            ConditionCategory concate3 = conditionCategoryService.findOne(3L);
+            ConditionCategory concate3 = conditionCategoryRepository.findById(3L).orElseThrow();
             model.addAttribute("concate3", concate3);
             model.addAttribute("page", "menuRecommendAdmin");
-            List<Menu> menu = menuRepository.findAllByName(editConditionForm.getBefore());
+            List<Menu> menu = menuRepository.findAllByName(editForm.getBefore());
             return "redirect:/admin/admin_recommend/editCondition/{conditionId}";
         } else{
-            List<Condition> conditionList1 = conditionService.findCate1(1L);
+            List<Condition> conditionList1 = conditionRepository.findAllByConditionCategoryId(1L);
             model.addAttribute("condition1", conditionList1);
-            List<Condition> conditionList2 = conditionService.findCate1(2L);
+            List<Condition> conditionList2 = conditionRepository.findAllByConditionCategoryId(2L);
             model.addAttribute("condition2", conditionList2);
-            List<Condition> conditionList3 = conditionService.findCate1(3L);
+            List<Condition> conditionList3 = conditionRepository.findAllByConditionCategoryId(3L);
             model.addAttribute("condition3", conditionList3);
 
-            ConditionCategory concate1 = conditionCategoryService.findOne(1L);
+            ConditionCategory concate1 = conditionCategoryRepository.findById(1L).orElseThrow();
             model.addAttribute("concate1", concate1);
-            ConditionCategory concate2 = conditionCategoryService.findOne(2L);
+            ConditionCategory concate2 = conditionCategoryRepository.findById(2L).orElseThrow();
             model.addAttribute("concate2", concate2);
-            ConditionCategory concate3 = conditionCategoryService.findOne(3L);
+            ConditionCategory concate3 = conditionCategoryRepository.findById(3L).orElseThrow();
             model.addAttribute("concate3", concate3);
             model.addAttribute("page", "menuRecommendAdmin");
-            List<Menu> menu = menuRepository.findAllByName(editConditionForm.getBefore());
+            List<Menu> menu = menuRepository.findAllByName(editForm.getBefore());
             return "redirect:/admin/admin_recommend/editCondition/{conditionId}";
         }
     }
@@ -274,45 +270,45 @@ public class AdminService {
             @PathVariable Long conditionMenuId){
         HttpSession session = request.getSession();
         session.setAttribute("message", "메뉴삭제");
-        ConditionMenu conditionMenu = conditionMenuService.findOne(conditionMenuId);
-        conditionMenuService.delete(conditionMenu);
+        ConditionMenu conditionMenu = conditionMenuRepository.findById(conditionMenuId).orElseThrow();
+        conditionMenuRepository.delete(conditionMenu);
         return "redirect:/admin/admin_recommend/editCondition/{conditionId}";
     }
 
-    public String addConditionMenu(EditConditionForm editConditionForm, Model model,
+    public String addConditionMenu(EditForm editForm, Model model,
                                    @PathVariable Long conditionId) {
 
         model.addAttribute("conditionId", conditionId);
         model.addAttribute("page", "addConditionMenu");
-        model.addAttribute("form", editConditionForm);
+        model.addAttribute("form", editForm);
         return "layout";
     }
 
-    public String addConditionMenus(EditConditionForm editConditionForm, Model model,
+    @Transactional
+    public String addConditionMenus(EditForm editForm, Model model,
                                     HttpServletRequest request,
                                     @PathVariable Long conditionId) {
         HttpSession session = request.getSession();
-        Condition condition = conditionService.findOne(conditionId);
-        if(editConditionForm.getAfter().isBlank()) {
+        Condition condition = conditionRepository.findById(conditionId).orElseThrow();
+        if(editForm.getAfter().isBlank()) {
             session.setAttribute("message", "내용을 입력해주세요");
             return "redirect:/admin/admin_recommend/editCondition/{conditionId}";
         } else{
             ConditionMenu conditionMenu = new ConditionMenu();
-            conditionMenu.setName(editConditionForm.getAfter());
+            conditionMenu.setName(editForm.getAfter());
             conditionMenu.setCondition(condition);
-            if(!(crossMenuService.findNewByName(editConditionForm.getAfter()).isEmpty())){
-                conditionMenu.setCrossMenu(crossMenuService.findByName(editConditionForm.getAfter()));
-                conditionMenuService.save(conditionMenu);
+            if(!(crossMenuRepository.findAllByName(editForm.getAfter()).isEmpty())){
+                conditionMenu.setCrossMenu(crossMenuRepository.findByName(editForm.getAfter()));
+                conditionMenuRepository.save(conditionMenu);
             } else{
                 CrossMenu crossMenu = new CrossMenu();
-                crossMenu.setName(editConditionForm.getAfter());
+                crossMenu.setName(editForm.getAfter());
                 conditionMenu.setCrossMenu(crossMenu);
-                crossMenuService.save(crossMenu);
-                conditionMenuService.save(conditionMenu);
-
-                List<Menu> menuList = menuRepository.findAllByName(editConditionForm.getAfter());
+                crossMenuRepository.save(crossMenu);
+                conditionMenuRepository.save(conditionMenu);
+                List<Menu> menuList = menuRepository.findAllByName(editForm.getAfter());
                 for(int i=0; i< menuList.size(); i++){
-                    if(menuList.get(i).getCrossMenu().getId().equals(crossMenuService.findByName("기타").getId())){
+                    if(menuList.get(i).getCrossMenu().getId().equals(crossMenuRepository.findByName("기타").getId())){
                         menuList.get(i).setCrossMenu(crossMenu);
                         menuRepository.save(menuList.get(i));
                     }

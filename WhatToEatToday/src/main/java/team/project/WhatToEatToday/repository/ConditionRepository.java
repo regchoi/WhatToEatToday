@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -12,35 +15,10 @@ import team.project.WhatToEatToday.domain.Condition;
 import team.project.WhatToEatToday.domain.ConditionCategory;
 import team.project.WhatToEatToday.domain.Menu;
 
-@Repository
-@RequiredArgsConstructor
-public class ConditionRepository {
-	
-	public final EntityManager em;
 
-    public void save(Condition condition) {
-        if(condition.getId() == null) {
-            em.persist(condition);
-        } else {
-            em.merge(condition);
-        }
-    }
-    
-    
-    public Condition findOne(Long id) {
-        return em.find(Condition.class, id);
-    }
+public interface ConditionRepository extends JpaRepository<Condition, Long> {
 
- 
-    public List<Condition> findAll() {
-        return em.createQuery("SELECT c FROM Condition c", Condition.class)
-                .getResultList();
-    }
-
-   public List<Condition> findCate1(Long id){
-	   return em.createQuery("SELECT c FROM Condition c where concate.id = :id", Condition.class )
-			   .setParameter("id", id)
-			   .getResultList();
-   }
+    @Query("SELECT c FROM Condition c where concate.id = :id")
+   public List<Condition> findAllByConditionCategoryId(@Param("id") Long id);
 
 }
