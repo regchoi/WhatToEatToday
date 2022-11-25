@@ -24,7 +24,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AdminService {
-    private final MemberRepository memberRepository;
+    private final MembersRepository memberRepository;
     private final ConditionRepository conditionRepository;
     private final ConditionCategoryRepository conditionCategoryRepository;
     private final ConditionMenuRepository conditionMenuRepository;

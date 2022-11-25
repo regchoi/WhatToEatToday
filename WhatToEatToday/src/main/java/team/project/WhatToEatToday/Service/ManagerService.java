@@ -26,7 +26,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Slf4j
 public class ManagerService {
-    private final MemberRepository memberRepository;
+    private final MembersRepository memberRepository;
     private final EatingHouseRepository eatingHouseRepository;
     private final CategoryService categoryService;
     private final CategoryRepository categoryRepository;

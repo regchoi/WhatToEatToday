@@ -48,10 +48,10 @@ public class CustomerController {
         return customerService.recommendMenuResult(longIdForm, model, longid);
     }
 
-//    @GetMapping("/eating_house/{eatingHouseId}")
-//    public String searchEatingHouse(@PathVariable Long eatingHouseId, Model model) {
-//        return customerService.searchEatingHouse(eatingHouseId, model);
-//    }
+    @GetMapping("/eating_house/{eatingHouseId}")
+    public String searchEatingHouse(@PathVariable Long eatingHouseId, Model model) {
+        return customerService.searchEatingHouse(eatingHouseId, model);
+    }
 	
 	@GetMapping("/menuAll")
     public String viewMenuAll(Model model) {
@@ -63,10 +63,10 @@ public class CustomerController {
         return customerService.viewAll(model);
     }
 
-//    @GetMapping("/eating_house/All/{eatingHouseId}")
-//    public String viewMenu(@PathVariable Long eatingHouseId,  Model model) {
-//        return customerService.viewMenu(eatingHouseId, model);
-//    }
+    @GetMapping("/eating_house/All/{eatingHouseId}")
+    public String viewMenu(@PathVariable Long eatingHouseId,  Model model) {
+        return customerService.viewMenu(eatingHouseId, model);
+    }
 
 
     @GetMapping("/eating_house/Kfood")

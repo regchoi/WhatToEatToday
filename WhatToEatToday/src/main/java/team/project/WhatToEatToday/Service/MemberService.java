@@ -9,7 +9,7 @@ import team.project.WhatToEatToday.domain.member.Manager;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.JoinForm;
 import team.project.WhatToEatToday.dto.LoginForm;
-import team.project.WhatToEatToday.repository.MemberRepository;
+import team.project.WhatToEatToday.repository.MembersRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,7 +20,7 @@ import javax.validation.Valid;
 @Transactional(readOnly = true)
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private final MembersRepository memberRepository;
 
     public String getJoin(Model model) {
         model.addAttribute("page", "join");

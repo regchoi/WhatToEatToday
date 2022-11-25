@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/")
+@RequestMapping("/eaa")
 public class EatingHouseController {
     private final EatingHouseService eatingHouseService;
 

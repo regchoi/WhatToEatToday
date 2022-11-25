@@ -65,20 +65,20 @@
 //        }
 //
 //        public void dbInit5() {
-//            Category category = categoryRepository.findOne(1L);
+//            Category category = categoryRepository.findById(1L).orElseThrow();
 //            Category category1 = createCategory(2L, "한식", category);
 //            em.persist(category1);
-//            Category category2 = createCategory(3L, "일식", categoryRepository.findOne(1L));
+//            Category category2 = createCategory(3L, "일식", categoryRepository.findById(1L).orElseThrow());
 //            em.persist(category2);
-//            Category category3 = createCategory(4L, "중식", categoryRepository.findOne(1L));
+//            Category category3 = createCategory(4L, "중식", categoryRepository.findById(1L).orElseThrow());
 //            em.persist(category3);
-//            Category category4 = createCategory(5L, "양식", categoryRepository.findOne(1L));
+//            Category category4 = createCategory(5L, "양식", categoryRepository.findById(1L).orElseThrow());
 //            em.persist(category4);
-//            Category category5 = createCategory(6L, "치킨", categoryRepository.findOne(1L));
+//            Category category5 = createCategory(6L, "치킨", categoryRepository.findById(1L).orElseThrow());
 //            em.persist(category5);
-//            Category category6 = createCategory(7L, "분식", categoryRepository.findOne(1L));
+//            Category category6 = createCategory(7L, "분식", categoryRepository.findById(1L).orElseThrow());
 //            em.persist(category6);
-//            Category category7 = createCategory(8L, "디저트", categoryRepository.findOne(1L));
+//            Category category7 = createCategory(8L, "디저트", categoryRepository.findById(1L).orElseThrow());
 //            em.persist(category7);
 //
 //        }

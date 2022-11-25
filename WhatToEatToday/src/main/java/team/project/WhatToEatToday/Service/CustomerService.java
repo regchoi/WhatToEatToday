@@ -14,10 +14,7 @@ import team.project.WhatToEatToday.domain.member.Customer;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.JoinForm;
 import team.project.WhatToEatToday.dto.LongIdForm;
-import team.project.WhatToEatToday.repository.ConditionCategoryRepository;
-import team.project.WhatToEatToday.repository.ConditionRepository;
-import team.project.WhatToEatToday.repository.MemberRepository;
-import team.project.WhatToEatToday.repository.MenuRepository;
+import team.project.WhatToEatToday.repository.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,9 +29,9 @@ import java.util.List;
 public class CustomerService {
     private final ConditionCategoryRepository conditionCategoryRepository;
     private final ConditionRepository conditionRepository;
-    private final MemberRepository memberRepository;
+    private final MembersRepository memberRepository;
     private final MenuRepository menuRepository;
-    private final EatingHouseService eatingHouseService;
+    private final EatingHouseRepository eatingHouseRepository;
 
     public String getMypage(@PathVariable Long customerId, Model model) {
         model.addAttribute("customer", memberRepository.findById(customerId).orElseThrow());
@@ -134,16 +131,16 @@ public class CustomerService {
         return "layout";
     }
 
-//    public String searchEatingHouse(@PathVariable Long eatingHouseId, Model model) {
-//
-//
-//        EatingHouse eatingHouses = eatingHouseService.findOne(eatingHouseId);
-//
-//        model.addAttribute("page", "viewKfood");
-//        model.addAttribute("eatingHouse", eatingHouses);
-//
-//        return "layout";
-//    }
+    public String searchEatingHouse(@PathVariable Long eatingHouseId, Model model) {
+
+
+        EatingHouse eatingHouses = eatingHouseRepository.findById(eatingHouseId).orElseThrow();
+
+        model.addAttribute("page", "viewKfood");
+        model.addAttribute("eatingHouse", eatingHouses);
+
+        return "layout";
+    }
 
     public String viewMenuAll(Model model) {
         model.addAttribute("page", "viewAll");
@@ -172,13 +169,13 @@ public class CustomerService {
         return "layout";
     }
 
-//    public String viewMenu(@PathVariable Long eatingHouseId,  Model model) {
-//        EatingHouse eatingHouses = eatingHouseService.findOne(eatingHouseId);
-//
-//        model.addAttribute("eatingHouse", eatingHouses);
-//        model.addAttribute("page", "menuList");
-//        return "layout";
-//    }
+    public String viewMenu(@PathVariable Long eatingHouseId,  Model model) {
+        EatingHouse eatingHouses = eatingHouseRepository.findById(eatingHouseId).orElseThrow();
+
+        model.addAttribute("eatingHouse", eatingHouses);
+        model.addAttribute("page", "menuList");
+        return "layout";
+    }
 
     public String viewKfood(Model model) {
         List<Menu> menu = menuRepository.findAllByCategoryId(2L);
