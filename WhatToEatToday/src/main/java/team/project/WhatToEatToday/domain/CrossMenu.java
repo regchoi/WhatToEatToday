@@ -24,10 +24,4 @@ public class CrossMenu {
     @OneToMany(mappedBy = "crossMenus")
     private List<ConditionMenu> conditionMenu = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "CrossMenu{" +
-                "name='" + name + '\'' +
-                '}';
-    }
 }

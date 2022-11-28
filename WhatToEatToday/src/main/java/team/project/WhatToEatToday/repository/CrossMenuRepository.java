@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface CrossMenuRepository extends JpaRepository<CrossMenu, Long> {
 
-    @Query("select m from CrossMenu m where m.name like concat('%', :name, '%')")
+    @Query("SELECT m FROM CrossMenu m WHERE m.name like concat('%', :name, '%')")
     CrossMenu findByName(@Param("name") String name);
 
-    @Query("select m from CrossMenu m where m.name like concat('%', :name, '%')")
+    @Query("SELECT m FROM CrossMenu m WHERE m.name like concat('%', :name, '%')")
     List<CrossMenu> findAllByName(@Param("name") String name);
 
 

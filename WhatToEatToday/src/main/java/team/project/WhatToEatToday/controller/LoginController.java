@@ -22,12 +22,12 @@ public class LoginController {
     private final MemberService memberService;
 
     @GetMapping
-    public String getlogin(Model model) {
+    public String getLogin(Model model) {
         return memberService.getlogin(model);
     }
 
     @PostMapping
-    public String postlogin(HttpServletRequest request, @Valid LoginForm loginForm) {
+    public String postLogin(HttpServletRequest request, @Valid LoginForm loginForm) {
         return memberService.postlogin(request, loginForm);
     }
 

@@ -7,7 +7,7 @@ import team.project.WhatToEatToday.domain.member.Member;
 
 public interface MembersRepository extends JpaRepository<Member, Long> {
 
-    @Query("select m from Member m where m.loginId= :loginid")
+    @Query("SELECT m FROM Member m WHERE m.loginId= :loginid")
     Member findOneByLoginId(@Param("loginid") String id);
 
     Boolean existsByLoginId(String id);

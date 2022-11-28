@@ -18,7 +18,7 @@ import team.project.WhatToEatToday.domain.Menu;
 
 public interface ConditionRepository extends JpaRepository<Condition, Long> {
 
-    @Query("SELECT c FROM Condition c where concate.id = :id")
+    @Query("SELECT c FROM Condition c WHERE concate.id = :id")
    public List<Condition> findAllByConditionCategoryId(@Param("id") Long id);
 
 }

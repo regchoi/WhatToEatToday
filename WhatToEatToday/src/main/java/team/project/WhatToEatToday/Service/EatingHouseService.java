@@ -20,8 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class EatingHouseService {
-
-    private final EatingHouseRepository eatingHouseRepository;
     private final MenuRepository menuRepository;
 
     public String home(Model model) {

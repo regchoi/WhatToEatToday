@@ -9,10 +9,10 @@ import java.util.List;
 
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-    @Query("SELECT m FROM Menu m where categorys.id = :id")
+    @Query("SELECT m FROM Menu m WHERE categorys.id = :id")
     List<Menu> findAllByCategoryId(@Param("id") Long id);
 
-    @Query("select m from Menu m where m.name like concat('%', :name, '%')")
+    @Query("SELECT m FROM Menu m WHERE m.name like concat('%', :name, '%')")
     List<Menu> findAllByName(@Param("name") String name);
 
 }

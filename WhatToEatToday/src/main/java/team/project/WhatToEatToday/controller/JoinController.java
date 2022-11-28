@@ -19,8 +19,6 @@ import javax.validation.Valid;
 public class JoinController {
 
     private final AdminService adminService;
-
-
     private final MemberService memberService;
 
     @GetMapping("")
