@@ -12,11 +12,10 @@
         <fieldset class="text__field">
           <fieldset class="eating_house__fieldset">
             <legend class="eating_house__legend">기존 메뉴명</legend>
-            <h3
+            <textarea
               th:text="${condition}"
                 id="name"
-              class="eating_house__input"
-            />
+              class="eating_house__input" disabled></textarea>
           </fieldset>
           <fieldset class="eating_house__fieldset">
             <legend class="eating_house__legend">새로운 메뉴명</legend>

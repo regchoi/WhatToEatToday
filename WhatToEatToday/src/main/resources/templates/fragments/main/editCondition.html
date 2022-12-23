@@ -12,11 +12,10 @@
         <fieldset class="text__field">
           <fieldset class="eating_house__fieldset">
             <legend class="eating_house__legend">기존 키워드</legend>
-            <h3
+            <textarea
                     th:text="${condition.getName()}"
                     id="name"
-                    class="eating_house__input"
-            />
+                    class="eating_house__input" disabled></textarea>
           </fieldset>
           <fieldset class="eating_house__fieldset">
             <legend class="eating_house__legend">새로운 키워드</legend>
@@ -43,8 +42,8 @@
             class="eating_house__menu_inner"
             th:href="@{'/admin/admin_recommend/editCondition/' + ${condition.getId()} + '/editMenu/' + ${menu.getId()}}"
           >
-            <div class="eating_house__menu__text">
-              <h2 th:text="${menu.getName()}"></h2>
+            <div class="eating_house__input">
+              <textarea th:text="${menu.getName()}"></textarea>
             </div>
           </a>
         </li>
