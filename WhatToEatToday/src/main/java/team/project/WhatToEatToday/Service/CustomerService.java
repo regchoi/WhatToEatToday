@@ -76,6 +76,7 @@ public class CustomerService {
         HttpSession session= request.getSession();
         try {
             Member member = (Member) session.getAttribute("member");
+            member.getId();
 
             ConditionCategory concate1 = conditionCategoryRepository.findById(1L).orElseThrow();
             model.addAttribute("concate1", concate1);
