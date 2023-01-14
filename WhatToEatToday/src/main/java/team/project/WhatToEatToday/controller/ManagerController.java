@@ -1,18 +1,20 @@
 package team.project.WhatToEatToday.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import team.project.WhatToEatToday.Service.ManagerService;
 import team.project.WhatToEatToday.dto.EatingHouseForm;
 import team.project.WhatToEatToday.dto.MenuForm;
+import team.project.WhatToEatToday.file.FileStore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 @Controller
 @RequestMapping("/manager")
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 public class ManagerController {
 
     private final ManagerService managerService;
+    private final FileStore fileStore;
 
     @GetMapping("/eating_house")
     public String getManager(HttpServletRequest request, Model model) {
@@ -43,8 +46,8 @@ public class ManagerController {
     }
 
     @PostMapping("/eating_house/edit/{eatingHouseId}")
-    public String postEatingHouseDetail(@PathVariable Long eatingHouseId, @Valid EatingHouseForm eatingHouseForm) {
-        return managerService.postEatingHouseDetail(eatingHouseId, eatingHouseForm);
+    public String postEatingHouseDetail(@PathVariable Long eatingHouseId, @Valid EatingHouseForm eatingHouseForm) throws IOException {
+        return managerService.postEatingHouseEdit(eatingHouseId, eatingHouseForm);
     }
 
     @GetMapping("/eating_house/delete/{eatingHouseId}")
@@ -53,25 +56,25 @@ public class ManagerController {
     }
 
     @GetMapping("/eating_house/edit/{eatingHouseId}/menu/add")
-    public String getAddMenu(@PathVariable Long eatingHouseId, Model model, MenuForm menuForm){
+    public String getAddMenu(@PathVariable Long eatingHouseId, Model model, MenuForm menuForm) {
         return managerService.getAddMenu(eatingHouseId, model, menuForm);
     }
 
     @PostMapping("/eating_house/edit/{eatingHouseId}/menu/add")
-    public String postAddMenu(HttpServletRequest request, @PathVariable Long eatingHouseId, @Valid MenuForm menuForm){
+    public String postAddMenu(HttpServletRequest request, @PathVariable Long eatingHouseId, @Valid MenuForm menuForm) {
         return managerService.postAddMenu(request, eatingHouseId, menuForm);
     }
 
     @GetMapping("/eating_house/edit/{eatingHouseId}/menu/edit/{menuId}")
     public String getEditMenu(
             @PathVariable Long eatingHouseId,
-            @PathVariable Long menuId, Model model, MenuForm menuForm){
+            @PathVariable Long menuId, Model model, MenuForm menuForm) {
         return managerService.getEditMenu(eatingHouseId, menuId, model, menuForm);
     }
 
     @PostMapping("/eating_house/edit/{eatingHouseId}/menu/edit/{menuId}")
     public String postEditMenu(HttpServletRequest request, @PathVariable Long eatingHouseId,
-                               @PathVariable Long menuId, @Valid MenuForm menuForm) {
+                               @PathVariable Long menuId, @Valid MenuForm menuForm) throws IOException {
         return managerService.postEditMenu(request, eatingHouseId, menuId, menuForm);
     }
 
@@ -79,7 +82,26 @@ public class ManagerController {
     public String deleteMenu(
             HttpServletRequest request,
             @PathVariable Long eatingHouseId,
-            @PathVariable Long menuId){
+            @PathVariable Long menuId) {
         return managerService.deleteMenu(request, eatingHouseId, menuId);
     }
+
+    @ResponseBody
+    @GetMapping("/images/{filename}")
+    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
+        System.out.println(fileStore.getFullPath(filename));
+        return new UrlResource("file:" + fileStore.getFullPath(filename));
+    }
+
+    @ResponseBody
+    @GetMapping("/images/store")
+    public Resource defaultStoreImage() throws MalformedURLException {
+        return new UrlResource("file:" + fileStore.getFileDefaultDir() + "default/가게.png");
+    }
+    @ResponseBody
+    @GetMapping("/images/menu")
+    public Resource defaultMenuImage() throws MalformedURLException {
+        return new UrlResource("file:" + fileStore.getFileDefaultDir() + "default/음식.png");
+    }
+
 }

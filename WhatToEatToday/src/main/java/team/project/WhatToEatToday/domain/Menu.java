@@ -30,6 +30,9 @@ public class Menu {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cross_menu_id")
     private CrossMenu crossMenu;
+
+    private String uploadMenuFileName;
+    private String storeMenuFileName;
     
     public void setCategory(Category category) {
         this.categorys = category;

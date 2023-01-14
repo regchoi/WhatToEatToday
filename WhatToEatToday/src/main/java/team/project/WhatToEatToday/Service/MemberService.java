@@ -114,10 +114,7 @@ public class MemberService {
 
     public String getLogout(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute("login", null);
-        session.setAttribute("member", null);
-        session.setAttribute("memberType", null);
-        session.setAttribute("message", "로그아웃");
+        session.invalidate();
         return "redirect:/";
     }
 

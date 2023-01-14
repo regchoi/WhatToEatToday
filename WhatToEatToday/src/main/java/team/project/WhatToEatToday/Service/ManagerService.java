@@ -6,19 +6,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import team.project.WhatToEatToday.domain.Category;
-import team.project.WhatToEatToday.domain.CrossMenu;
-import team.project.WhatToEatToday.domain.EatingHouse;
-import team.project.WhatToEatToday.domain.Menu;
+import org.springframework.web.multipart.MultipartFile;
+import team.project.WhatToEatToday.domain.*;
 import team.project.WhatToEatToday.domain.member.Manager;
 import team.project.WhatToEatToday.domain.member.Member;
 import team.project.WhatToEatToday.dto.EatingHouseForm;
 import team.project.WhatToEatToday.dto.MenuForm;
+import team.project.WhatToEatToday.file.FileStore;
 import team.project.WhatToEatToday.repository.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -32,6 +32,7 @@ public class ManagerService {
     private final CategoryRepository categoryRepository;
     private final MenuRepository menuRepository;
     private final CrossMenuRepository crossMenuRepository;
+    private final FileStore fileStore;
 
     public String getManager(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -67,6 +68,16 @@ public class ManagerService {
             eatingHouse.setManager(manager);
             eatingHouse.setAddress(eatingHouseForm.getAddress());
             eatingHouse.setAddressDetail(eatingHouseForm.getAddressDetail());
+
+
+
+            UploadFile file = fileStore.storeFile(eatingHouseForm.getMultipartFile());
+            String uploadFile = file.getUploadFileName();
+            String storeFile = file.getStoreFileName();
+            eatingHouse.setUploadEatingHouseFileName(uploadFile);
+            eatingHouse.setStoreEatingHouseFileName(storeFile);
+
+
             eatingHouseRepository.save(eatingHouse);
             session.setAttribute("message", "매장 등록 성공");
             return "redirect:/manager/eating_house";
@@ -85,8 +96,15 @@ public class ManagerService {
     }
 
     @Transactional
-    public String postEatingHouseDetail(@PathVariable Long eatingHouseId, @Valid EatingHouseForm eatingHouseForm) {
+    public String postEatingHouseEdit(@PathVariable Long eatingHouseId, @Valid EatingHouseForm eatingHouseForm) throws IOException {
         EatingHouse eatingHouse = eatingHouseRepository.getById(eatingHouseId);
+
+        UploadFile file = fileStore.storeFile(eatingHouseForm.getMultipartFile());
+        String uploadFile = file.getUploadFileName();
+        String storeFile = file.getStoreFileName();
+        eatingHouse.setUploadEatingHouseFileName(uploadFile);
+        eatingHouse.setStoreEatingHouseFileName(storeFile);
+
         eatingHouse.setName(eatingHouseForm.getName());
         eatingHouse.setDescription(eatingHouseForm.getDescription());
         eatingHouse.setAddress(eatingHouseForm.getAddress());
@@ -95,6 +113,7 @@ public class ManagerService {
         return "redirect:/manager/eating_house";
     }
 
+    @Transactional
     public String deleteEatingHouseDetail(HttpServletRequest request, @PathVariable Long eatingHouseId) {
         HttpSession session = request.getSession();
         session.setAttribute("message", "삭제완료");
@@ -122,6 +141,13 @@ public class ManagerService {
             menu.setPrice(menuForm.getPrice());
             menu.setCategorys(categoryRepository.findById(menuForm.getCategory()).orElseThrow());
             menu.setEatingHouse(eatingHouseRepository.getById(eatingHouseId));
+
+            UploadFile file = fileStore.storeFile(menuForm.getMultipartFile());
+            String uploadFile = file.getUploadFileName();
+            String storeFile = file.getStoreFileName();
+            menu.setUploadMenuFileName(uploadFile);
+            menu.setStoreMenuFileName(storeFile);
+
             menuRepository.save(menu);
 
             List<CrossMenu> checkCrossMenu = crossMenuRepository.findAll();
@@ -145,8 +171,7 @@ public class ManagerService {
             }
             session.setAttribute("message", "메뉴추가");
             return "redirect:/manager/eating_house/edit/" + eatingHouseId;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             log.error("error:",e);
             session.setAttribute("message", "카테고리를 입력하여주세요.");
             return "redirect:/manager/eating_house/edit/" + eatingHouseId;
@@ -168,14 +193,22 @@ public class ManagerService {
         return "layout";
     }
 
+    @Transactional
     public String postEditMenu(HttpServletRequest request, @PathVariable Long eatingHouseId,
-                               @PathVariable Long menuId, @Valid MenuForm menuForm) {
+                               @PathVariable Long menuId, @Valid MenuForm menuForm) throws IOException {
         HttpSession session = request.getSession();
         session.setAttribute("message", "메뉴수정");
         Menu menu = menuRepository.findById(menuId).orElseThrow();
         menu.setName(menuForm.getName());
         menu.setPrice(menuForm.getPrice());
         menu.setCategorys(categoryRepository.findById(menuForm.getCategory()).orElseThrow());
+
+        UploadFile file = fileStore.storeFile(menuForm.getMultipartFile());
+        String uploadFile = file.getUploadFileName();
+        String storeFile = file.getStoreFileName();
+        menu.setUploadMenuFileName(uploadFile);
+        menu.setStoreMenuFileName(storeFile);
+
         menuRepository.save(menu);
 
         Long checkId = 123456789L;
@@ -201,6 +234,7 @@ public class ManagerService {
         return "redirect:/manager/eating_house/edit/" + eatingHouseId;
     }
 
+    @Transactional
     public String deleteMenu(
             HttpServletRequest request,
             @PathVariable Long eatingHouseId,

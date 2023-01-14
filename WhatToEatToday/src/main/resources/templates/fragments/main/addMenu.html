@@ -6,6 +6,7 @@
         th:action="@{'/manager/eating_house/edit/' + ${eatingHouse.getId()} + '/menu/add'}"
         method="post"
         th:object="${menuForm}"
+        enctype="multipart/form-data"
         class="menu"
       >
         <fieldset class="menu__fieldset">
@@ -30,6 +31,15 @@
             th:field="*{price}"
             min="0"
             step="100"
+          />
+        </fieldset>
+        <fieldset class="menu__button">
+          <input
+                  class="eating_house__button"
+                  type="file"
+                  id="store-image"
+                  autocomplete="off"
+                  th:field="*{multipartFile}"
           />
         </fieldset>
         <button class="menu__button">등록</button>

@@ -6,10 +6,12 @@
         th:action="@{ '/manager/eating_house/edit/' + ${eatingHouse.getId()} + '/menu/edit/' + ${menu.getId()}}"
         method="post"
         th:object="${menuForm}"
+        enctype="multipart/form-data"
         class="menu"
       >
         <fieldset class="menu__fieldset">
-          <input type="image" src="/img/category/음식.png" alt=""  class="menu__input" />
+          <img th:if="${menu.getStoreMenuFileName == null}" th:src="|/manager/images/menu|" type="image" alt="" width="300" height="300"/>
+          <img th:if="${menu.getStoreMenuFileName != null}" th:src="|/manager/images/${menu.getStoreMenuFileName}|" type="image" alt="" width="300" height="300"/>
         </fieldset>
         <fieldset class="menu__fieldset">
           <legend class="menu__legend">카테고리</legend>
@@ -32,6 +34,16 @@
             step="100"
           />
         </fieldset>
+        <fieldset class="menu__fieldset">
+          <input
+                  class="eating_house__button"
+                  type="file"
+                  id="store-image"
+                  autocomplete="off"
+                  th:field="*{multipartFile}"
+          />
+        </fieldset>
+
         <button class="menu__button">수정</button>
         <a th:href="@{ '/manager/eating_house/edit/' + ${eatingHouse.getId()} + '/menu/delete/' + ${menu.getId()}}" class="menu__button">삭제</a>
       </form>

@@ -2,6 +2,7 @@ package team.project.WhatToEatToday.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 import team.project.WhatToEatToday.domain.member.Manager;
 
 import javax.persistence.*;
@@ -34,6 +35,10 @@ public class EatingHouse {
     private String address;
 
     private String addressDetail;
+
+    private String uploadEatingHouseFileName;
+    private String storeEatingHouseFileName;
+
 
     public void setManager(Manager manager) {
         this.manager = manager;

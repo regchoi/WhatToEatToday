@@ -12,11 +12,8 @@
 
                 >
                     <figure class="eating_house__menu__img_fieldset">
-                        <img
-                                class="eating_house__menu__img"
-                                src="/img/category/음식.png"
-                                alt=""
-                        />
+                        <img th:if="${menu.getStoreMenuFileName == null}" th:src="|/manager/images/menu|" type="image" alt="" width="300" height="300"/>
+                        <img th:if="${menu.getStoreMenuFileName != null}" th:src="|/manager/images/${menu.getStoreEatingHouseFileName}|" type="image" alt="" width="100" height="100"/>
                         <figcaption class="blind">메뉴 이미지</figcaption>
                     </figure>
                     <div class="eating_house__menu__text">
