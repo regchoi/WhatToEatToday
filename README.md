@@ -10,7 +10,7 @@
 2. Github Repository clone
 
 ## 실행 방법
-1. application.yml ddl-auto: create로 변경
+1. application.yml 파일에 ddl-auto: create로 변경
 2. 프로젝트 안에 initdb.java 주석 풀고 실행
-3. 실행 후 application.yml ddl-auto: none으로 변경
+3. 실행 후 application.yml 파일에 ddl-auto: none으로 변경
 4. initdb.java 주석처리
