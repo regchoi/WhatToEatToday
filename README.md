@@ -16,5 +16,5 @@
 4. initdb.java 주석처리
 
 ## 시연 영상
-https://user-images.githubusercontent.com/103176657/231127148-28c09ac9-503f-4fa8-b049-3a715e4c167c.mp4
+https://user-images.githubusercontent.com/103176657/231128759-46d5557c-56ba-45b3-bed9-1ce62cee750a.mp4
 
