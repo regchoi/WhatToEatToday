@@ -14,3 +14,7 @@
 2. 프로젝트 안에 initdb.java 주석 풀고 실행
 3. 실행 후 application.yml 파일에 ddl-auto: none으로 변경
 4. initdb.java 주석처리
+
+## 시연 영상
+https://user-images.githubusercontent.com/103176657/231127148-28c09ac9-503f-4fa8-b049-3a715e4c167c.mp4
+
