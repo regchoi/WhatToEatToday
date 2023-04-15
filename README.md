@@ -16,6 +16,9 @@
 4. 실행 후 application.yml 파일에 ddl-auto: none으로 변경하기
 5. initdb.java 주석처리 하기
 
+## ERD
+![wtet](https://user-images.githubusercontent.com/103176657/232197577-f4630f9e-892f-485a-a238-d80f02403b52.png)
+
 
 ## 시연 영상
 https://user-images.githubusercontent.com/103176657/231128759-46d5557c-56ba-45b3-bed9-1ce62cee750a.mp4
