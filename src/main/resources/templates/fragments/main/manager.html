@@ -6,7 +6,7 @@
           <li class="eating_house" th:each="eatingHouse : ${eatingHouses}">
             <a th:href="@{'/manager/eating_house/edit/' + ${eatingHouse.getId()} } " class="eating_house__inner">
               <figure class="eating_house__img">
-                <img th:if="${eatingHouse.getStoreEatingHouseFileName == null}" th:src="|/manager/images/store|" type="image" alt="" width="300" height="300"/>
+                <img th:if="${eatingHouse.getStoreEatingHouseFileName == null}" th:src="|/img/category/가게.png|" type="image" alt="" width="300" height="300"/>
                 <img th:if="${eatingHouse.getStoreEatingHouseFileName != null}" th:src="|/manager/images/${eatingHouse.getStoreEatingHouseFileName}|" type="image" alt="" width="300" height="300"/>
                 <figcaption class="blind"></figcaption>
               </figure>

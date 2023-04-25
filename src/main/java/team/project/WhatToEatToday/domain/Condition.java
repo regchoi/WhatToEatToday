@@ -15,15 +15,12 @@ import team.project.WhatToEatToday.domain.member.Manager;
 @Table(name = "\"condition\"")
 public class Condition {
 
-	
-	@Id 
+	@Id
 	@Column(name = "condition_id")
 	private Long id;
 
 	private String name;
-	
 
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "conditioncategory_id")
 	private ConditionCategory concate;

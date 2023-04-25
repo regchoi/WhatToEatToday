@@ -5,13 +5,11 @@
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Component;
 //import org.springframework.transaction.annotation.Transactional;
-//
 //import team.project.WhatToEatToday.domain.*;
 //import team.project.WhatToEatToday.domain.member.Admin;
 //import team.project.WhatToEatToday.domain.member.Customer;
 //import team.project.WhatToEatToday.domain.member.Manager;
 //import team.project.WhatToEatToday.repository.CategoryRepository;
-//import team.project.WhatToEatToday.repository.EatingHouseRepository;
 //
 //import javax.annotation.PostConstruct;
 //import javax.persistence.EntityManager;
@@ -28,8 +26,6 @@
 //        initService.dbInit2();
 //        initService.dbInit3();
 //        initService.dbInit4();
-//        initService.dbInit5();
-//        initService.dbInit6();
 //    }
 //
 //    @Component
@@ -44,27 +40,13 @@
 //            Admin admin = createAdmin("admin", "admin", "admin", "admin", "admin", null);
 //            em.persist(admin);
 //        }
-//
 //        public void dbInit2() {
-//            Manager manager1 = createManager("manager1", "manager1", "manager1", "manager1", "manager1", null);
-//            em.persist(manager1);
-//            Manager manager2 = createManager("manager2", "manager2", "manager2", "manager2", "manager2", null);
-//            em.persist(manager2);
-//            Manager manager3 = createManager("manager3", "manager3", "manager3", "manager3", "manager3", null);
-//            em.persist(manager3);
-//        }
-//
-//        public void dbInit3() {
-//            Customer customer = createCustomer("customer", "customer", "customer", "customer", "customer", null);
-//            em.persist(customer);
-//        }
-//        public void dbInit4() {
 //            Category category = createCategoryOne(1L, "전체메뉴");
 //            category.setParent(category);
 //            em.persist(category);
 //        }
 //
-//        public void dbInit5() {
+//        public void dbInit3() {
 //            Category category = categoryRepository.findById(1L).orElseThrow();
 //            Category category1 = createCategory(2L, "한식", category);
 //            em.persist(category1);
@@ -84,7 +66,7 @@
 //        }
 //
 //
-//        public void dbInit6() {
+//        public void dbInit4() {
 //        	ConditionCategory concate1 = createConditionCategory(1L, "기분");
 //        	em.persist(concate1);
 //        	ConditionCategory concate2 = createConditionCategory(2L, "날씨");

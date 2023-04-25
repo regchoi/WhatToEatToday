@@ -10,7 +10,7 @@
         class="menu"
       >
         <fieldset class="menu__fieldset">
-          <img th:if="${menu.getStoreMenuFileName == null}" th:src="|/manager/images/menu|" type="image" alt="" width="300" height="300"/>
+          <img th:if="${menu.getStoreMenuFileName == null}" th:src="|/img/category/음식.png|" type="image" alt="" width="300" height="300"/>
           <img th:if="${menu.getStoreMenuFileName != null}" th:src="|/manager/images/${menu.getStoreMenuFileName}|" type="image" alt="" width="300" height="300"/>
         </fieldset>
         <fieldset class="menu__fieldset">
